@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>변승준 — Backend / Full-Stack Engineer</title>
+<meta name="description" content="변승준 — Backend / Full-Stack Engineer. Fine Ludens에서 Spring Boot 백엔드·AWS 인프라를 직접 설계·운영하고 B2C·B2B 제품을 실서비스까지 책임진 엔지니어.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="변승준 — Backend / Full-Stack Engineer">
+<meta property="og:description" content="Spring Boot 백엔드·AWS 인프라를 직접 설계·운영하고 B2C·B2B 제품을 실서비스 운영까지 책임진 엔지니어.">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23a8402a'/%3E%3Ctext x='50' y='72' font-size='64' font-family='Arial' font-weight='bold' fill='%23fbfaf6' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ════════════════════════════════════════════════════════════
+     인쇄 → PDF :  Ctrl+P · 대상=PDF로 저장 · 여백=없음 · 배경 그래픽 켜기 · A4 2페이지
+     ════════════════════════════════════════════════════════════ */
+  @page { size: A4; margin: 0; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  :root{
+    --ink:#17130d; --soft:#5f574c; --faint:#8c8478;
+    --line:#e3ddd1; --line2:#cfc7b8; --paper:#fbfaf6; --accent:#a8402a;
+  }
+
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    font-family:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink); background:#d7d4cd; line-height:1.6;
+    font-feature-settings:"tnum" 1; -webkit-font-smoothing:antialiased;
+    letter-spacing:-.012em; word-break:keep-all; overflow-wrap:break-word;
+  }
+  .sheet{
+    width:210mm; height:297mm; margin:0 auto; background:var(--paper);
+    padding:16mm 18mm 14mm; position:relative; overflow:hidden;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .sheet + .sheet{ break-before:page; page-break-before:always; }
+  @media screen{ body{ padding:20px 0; } .sheet{ box-shadow:0 8px 40px rgba(0,0,0,.22); } .sheet + .sheet{ margin-top:22px; } }
+
+  /* ── 언어 전환 (화면 전용) ── */
+  .langswitch{ position:fixed; top:14px; right:14px; z-index:99; font-size:12px; font-weight:700;
+    text-decoration:none; color:var(--ink); background:var(--paper); border:1px solid var(--line2);
+    border-radius:20px; padding:6px 15px; box-shadow:0 2px 12px rgba(0,0,0,.14); letter-spacing:.04em; }
+  .langswitch:hover{ background:var(--ink); color:var(--paper); }
+  @media print{ .langswitch{ display:none; } }
+
+  .accent{ color:var(--accent); }
+  em{ font-style:normal; color:var(--accent); font-weight:700; }
+
+  /* ── 마스트헤드 ── */
+  .mast{ display:flex; justify-content:space-between; align-items:flex-end; }
+  .mast .name{ font-size:48px; font-weight:800; letter-spacing:-.01em; line-height:.95; }
+  .mast .name .en{ font-size:15px; font-weight:600; letter-spacing:.01em; color:var(--soft); display:block; margin-top:9px; }
+  .mast .meta{ text-align:right; font-size:11px; line-height:1.95; color:var(--soft); }
+  .mast .meta b{ color:var(--ink); font-weight:600; }
+  .rule{ height:2px; background:var(--ink); margin:6mm 0 0; }
+
+  .lede{ display:flex; gap:9mm; margin-top:7mm; align-items:flex-start; }
+  .lede .role{ flex:0 0 48mm; font-size:13px; font-weight:700; color:var(--accent); line-height:1.6; padding-top:2px; }
+  .lede .copy{ flex:1; font-size:13.5px; line-height:1.82; color:#3b342a; }
+  .lede .copy b{ font-weight:700; color:var(--ink); }
+
+  /* ── 임팩트 수치 ── */
+  .metrics{ display:grid; grid-template-columns:repeat(4,1fr); margin-top:8mm;
+            border-top:1px solid var(--line); border-bottom:1px solid var(--line); break-inside:avoid; }
+  .metrics .m{ padding:5mm 0; text-align:center; border-right:1px solid var(--line); }
+  .metrics .m:last-child{ border-right:0; }
+  .metrics .fig{ font-size:28px; font-weight:800; letter-spacing:-.02em; color:var(--ink); line-height:1; }
+  .metrics .fig .ac{ color:var(--accent); }
+  .metrics .cap{ font-size:11px; color:var(--soft); margin-top:4mm; line-height:1.45; }
+
+  /* ── 섹션 헤더 ── */
+  .sec{ margin-top:8mm; }
+  .sechead{ display:flex; align-items:baseline; gap:10px; margin-bottom:5mm; break-after:avoid; }
+  .sechead .no{ font-size:12.5px; font-weight:800; color:var(--accent); letter-spacing:.03em; }
+  .sechead .ti{ font-size:12.5px; font-weight:800; letter-spacing:.24em; text-transform:uppercase; }
+  .sechead .ln{ display:none; }
+
+  /* ── 경력 ── */
+  .exp{ display:grid; grid-template-columns:48mm 1fr; gap:9mm; }
+  .exp .when{ font-size:11px; color:var(--faint); letter-spacing:.01em; }
+  .exp .org{ font-size:15px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .exp .org .co{ font-size:11.5px; font-weight:600; color:var(--soft); }
+  .exp .pos{ font-size:11.5px; color:var(--accent); font-weight:700; margin-top:4px; line-height:1.4; }
+  .exp .tag{ font-size:10.5px; color:var(--soft); margin-top:4mm; line-height:1.85; }
+  .exp .summary{ font-size:12.5px; color:#4a4236; line-height:1.78; margin-bottom:4.5mm; }
+  .ach{ list-style:none; }
+  .ach li{ font-size:12px; line-height:1.72; color:#3b342a; padding-left:15px; position:relative; margin-bottom:3.4mm; break-inside:avoid; }
+  .ach li::before{ content:"—"; position:absolute; left:0; top:0; color:var(--accent); font-weight:700; }
+  .ach li b{ font-weight:700; color:var(--ink); }
+  .micro{ font-size:10.5px; color:var(--faint); font-style:italic; margin-top:4mm; padding-left:15px; line-height:1.6; }
+
+  /* ── 2페이지 러닝 헤더 ── */
+  .runhead{ display:flex; justify-content:space-between; align-items:baseline;
+            border-bottom:1px solid var(--ink); padding-bottom:3mm; }
+  .runhead .l{ font-size:13px; font-weight:800; letter-spacing:-.01em; }
+  .runhead .l span{ font-weight:600; color:var(--soft); font-size:11px; }
+  .runhead .r{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); font-weight:700; }
+
+  /* ── 프로젝트 ── */
+  .prj{ border-top:1px solid var(--line); padding:3.5mm 0; break-inside:avoid; }
+  .prj:last-of-type{ border-bottom:1px solid var(--line); }
+  .prj .top{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .prj .pn{ font-size:14px; font-weight:800; }
+  .prj .pn .role{ font-weight:600; color:var(--soft); font-size:11.5px; }
+  .prj .pw{ font-size:10.5px; color:var(--faint); white-space:nowrap; }
+  .prj .stack{ font-size:10px; letter-spacing:.03em; color:var(--accent); margin-top:2.6mm; font-weight:600; }
+  .prj .pd{ font-size:11.5px; color:#4a4236; line-height:1.62; margin-top:2.2mm; }
+  .pl{ list-style:none; margin-top:2.6mm; }
+  .pl li{ font-size:11px; line-height:1.6; color:#3b342a; padding-left:14px; position:relative; margin-bottom:1.5mm; }
+  .pl li::before{ content:"·"; position:absolute; left:3px; top:-1px; color:var(--accent); font-weight:800; font-size:14px; }
+  .k{ font-weight:700; color:var(--ink); }
+  /* ── 일하는 방식 (팀 핵심가치 → 내 증명) ── */
+  .values{ margin-top:4mm; }
+  .values .vlbl{ font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); font-weight:700; margin-bottom:3mm; }
+  .vgrid{ display:grid; grid-template-columns:1fr 1fr; gap:2.4mm 9mm; }
+  .vitem{ font-size:11px; line-height:1.5; color:#3b342a; }
+  .vitem b{ color:var(--ink); font-weight:700; }
+  .vitem .vp{ color:var(--accent); font-size:9.5px; font-weight:600; }
+  .fifty{ display:flex; align-items:center; gap:5mm; margin:1mm 0 4mm; }
+  .fifty .big{ font-size:30px; font-weight:800; letter-spacing:-.01em; color:var(--accent); line-height:1; }
+  .fifty .desc{ font-size:11px; color:#4a4236; line-height:1.5; }
+  .fifty .desc b{ color:var(--ink); font-weight:700; }
+  .vmore{ font-size:10.5px; color:#4a4236; line-height:1.55; margin-top:3.5mm; padding-top:3mm; border-top:1px dotted var(--line2); }
+
+  /* ── 하단 학력·수상 / 기술 ── */
+  .foot{ display:grid; grid-template-columns:1fr 1fr; gap:11mm; margin-top:5mm; break-inside:avoid; }
+  .blk h4{ font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint); font-weight:700; margin-bottom:4.5mm; }
+  .row{ display:flex; justify-content:space-between; gap:8px; margin-bottom:3.8mm; }
+  .row .l{ font-size:12px; font-weight:700; line-height:1.45; }
+  .row .l small{ display:block; font-weight:500; color:var(--soft); font-size:10.5px; margin-top:2px; }
+  .row .r{ font-size:10.5px; color:var(--faint); white-space:nowrap; }
+  .sk{ font-size:11.5px; line-height:1.78; color:#3b342a; }
+  .sk b{ color:var(--accent); font-weight:700; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; display:block; margin-top:3.5mm; }
+  .sk b:first-child{ margin-top:0; }
+</style>
+</head>
+<body>
+
+<a class="langswitch" href="en.html" hreflang="en">EN ↗</a>
+
+<!-- ════════════════════ PAGE 1 ════════════════════ -->
+<div class="sheet">
+
+  <header class="mast">
+    <div class="ident">
+      <div class="name">변승준<span class="en">Byun Seungjun</span></div>
+    </div>
+    <div class="meta">
+      <div><b>byean0106@naver.com</b></div>
+      <div>github.com/ByunSeungJun</div>
+      <div>fineplay.kr</div>
+    </div>
+  </header>
+  <div class="rule"></div>
+
+  <div class="lede">
+    <div class="role">Backend / Full-Stack Engineer<br>Fine Ludens 공동창업자</div>
+    <div class="copy">
+      <b>0→1 풀스택과 시스템 설계로 B2C·B2B 제품을 실서비스 운영까지 책임진 엔지니어.</b>
+      소수 창업팀에서 Spring Boot 백엔드와 AWS 인프라를 직접 설계·운영하며,
+      프로덕션 장애는 <em>구조로 다시 안 터지게</em> 막고 성능은 <em>측정해서 깎아</em> 왔습니다.
+    </div>
+  </div>
+
+  <section class="metrics">
+    <div class="m"><div class="fig">150+<span class="ac">→40</span></div><div class="cap">DB 커넥션 풀 안정화<br>(MySQL 한계 151)</div></div>
+    <div class="m"><div class="fig">3N<span class="ac">→N+1</span></div><div class="cap">리스트 N+1<br>네트워크 요청 감축</div></div>
+    <div class="m"><div class="fig"><span class="ac">2→1</span></div><div class="cap">두 서비스<br>단일 백엔드 통합</div></div>
+    <div class="m"><div class="fig"><span class="ac">362</span></div><div class="cap">실사용자 확보<br>CAMP-US 컵 실운영</div></div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="no">01</span><span class="ti">Experience</span><span class="ln"></span></div>
+    <div class="exp">
+      <div>
+        <div class="when">2023.11 — 현재</div>
+        <div class="org">Fine Ludens<br><span class="co">주식회사 파인루덴스</span></div>
+        <div class="pos">공동창업자(발기인)<br>백엔드 · 인프라</div>
+        <div class="tag">스포츠테크 스타트업<br><span style="color:var(--accent);font-weight:700;">“모든 경기를 특별하게”</span><br>Fine Play(B2C)·Fine Day(B2C)<br>CardNews(B2B)<br>2026.03 법인 전환<br><span style="color:var(--soft);">실증 — SUFA · HYU League · CAMP-US · K3 · WK</span></div>
+      </div>
+      <div>
+        <div class="summary">
+          Fine Ludens는 데이터와 Vision AI로 생활 스포츠를 더 의미 있는 경험으로 재설계하는 스포츠테크 스타트업입니다. 핵심 서비스 <span class="k">Fine Play</span>는 경기 영상을 올리면 하이라이트 선별·퍼포먼스 분석·리포트를 한 흐름으로 제공합니다.
+          저는 이 서비스를 <span class="k">0부터 만들어 iOS·Android·Web으로 출시·운영</span>하며 백엔드·인프라·배포·결제 전반을 담당했습니다.
+        </div>
+        <ul class="ach">
+          <li><b>공유 백엔드 아키텍처.</b> Fine Play·Fine Day 두 서비스를 단일 Spring Boot와 통합 JWT 인증으로 설계하고 도메인 단위로 패키지를 분리해 운영 복잡도를 낮췄습니다.</li>
+          <li><b>장애 근본해결.</b> DB 커넥션 풀 고갈로 전 인스턴스가 재시작 루프에 빠진 장애를, HikariCP 풀 상한을 “인스턴스 수 × 상한 ≤ DB 한계”로 역산(4×10=40 / 151)해 150+ → 40~50개로 안정화했습니다.</li>
+          <li><b>성능 최적화.</b> 대시보드 N+1 제거(@ManyToOne 지연로딩)와 앱 리스트 N+1 감축(3N→N+1), 공용 이미지 캐시 파이프라인 ~45곳 적용으로 요청·메모리 비용을 줄였습니다.</li>
+          <li><b>인증 · Redis.</b> 리프레시 토큰 회전(RTR)·재사용 감지 시 일괄 무효화, setIfAbsent 분산락, 액세스 토큰 블랙리스트(TTL=잔여만료), Redis 장애 graceful degradation을 구현했습니다.</li>
+          <li><b>인프라 · 배포 · 결제.</b> AWS(EC2·ALB·RDS·ElastiCache) 기반 GitHub Actions CI/CD·Blue-Green 무중단 배포와, 토스 빌링키 정기/단건 결제·월구독 인프라를 구축했습니다.</li>
+          <li><b>출시 · 콘텐츠 자동화.</b> Flutter 앱을 App Store·Google Play에 출시(Apple 심사 반복 돌파)하고, 지표 시각화를 카드뉴스로 자동 생성하는 어드민 툴과 앱 대회 탭까지 연결해 접점을 넓혔습니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════ PAGE 2 ════════════════════ -->
+<div class="sheet">
+
+  <div class="runhead">
+    <div class="l">변승준 <span>— Backend / Full-Stack Engineer</span></div>
+    <div class="r">Portfolio 2026 · 2 / 2</div>
+  </div>
+
+  <section class="values">
+    <div class="vlbl">Ways of Working</div>
+    <div class="fifty">
+      <div class="big">50210</div>
+      <div class="desc"><b>50% 덜 고민하고, 10% 더 실행한다.</b> 전례가 없는 문제는 스스로 기준을 세워 빠르게 움직인다.</div>
+    </div>
+    <div class="vgrid">
+      <div class="vitem"><b>Make it Measurable</b> — 측정해서 판단한다</div>
+      <div class="vitem"><b>Remove Friction</b> — 반복은 구조·자동화로 없앤다</div>
+      <div class="vitem"><b>Own the Decision</b> — 판단은 위임하지 않는다</div>
+      <div class="vitem"><b>Iterate Relentlessly</b> — 막혀도 끝까지 반복한다</div>
+    </div>
+    <div class="vmore">AI 코딩 에이전트(Claude Code)를 구현 · 코드리뷰 · 보안점검 세션으로 나눠 병행하고, <span class="k">Obsidian을 제2의 두뇌(장기기억)</span>로 삼아 아키텍처·결정 기록을 컨텍스트로 주입합니다. <span class="k">도구는 위임해도 판단·검증은 직접</span> 합니다.</div>
+  </section>
+
+  <section class="sec" style="margin-top:5mm;">
+    <div class="sechead"><span class="no">02</span><span class="ti">Selected Projects</span><span class="ln"></span></div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">StyleRobo <span class="role">— AI 퍼스널컬러 진단 웹 · 팀장</span></div><div class="pw">2024.09 — 12</div></div>
+      <div class="stack">PYTHON · SCIKIT-LEARN · OPENCV · REACT · SPRING BOOT</div>
+      <div class="pd">얼굴 이미지를 분석해 4계절 퍼스널컬러를 진단하는 AI 웹 서비스. 기획부터 모델·프론트·백엔드 연동까지 <span class="k">전체 플로우를 주도</span>했습니다.</div>
+      <ul class="pl">
+        <li>OpenCV로 얼굴 채도·명도 특징을 추출·전처리 자동화, KNN 분류로 4계절 자동 분류 — 단순 RGB 분석 대비 <em>정확도 90% 이상</em></li>
+        <li>진단 결과 저장 API 설계 + Spring Boot 백엔드 연동, React 결과 시각화 구현</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">iCatch <span class="role">— 객체인식 기반 홈캠</span></div><div class="pw">2025.03 — 06</div></div>
+      <div class="stack">YOLOV8 · MEDIAPIPE · PYTHON · REACT · SPRING BOOT</div>
+      <div class="pd">탐지 → 상태 판단 → 알림 전송으로 이어지는 <span class="k">흐름을 기획하고 기능 구조를 설계</span>한 AIoT 종합 프로젝트.</div>
+      <ul class="pl">
+        <li>YOLO + MediaPipe로 위치·거리·시간 조건 기반 상태 판별 로직 구현, <span class="k">라즈베리파이 환경에 맞춰 경량화</span></li>
+        <li>React 기반 시각화 및 사용자 설정 인터페이스 설계</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">CashTag <span class="role">— 그룹 가계부 앱</span></div><div class="pw">2024.04 — 07</div></div>
+      <div class="stack">FLUTTER · FIGMA &nbsp;·&nbsp; <span style="color:var(--soft)">T.M.I 우수상 (팀 ECOM)</span></div>
+      <div class="pd">가족·친구·룸메이트가 함께 쓰는 공개 가계부 앱. <span class="k">프론트엔드 개발</span>을 담당했습니다.</div>
+      <ul class="pl">
+        <li>온보딩·로그인/회원가입·홈·그룹 관리 등 주요 화면 개발(Figma → Flutter)</li>
+        <li><span class="k">실시간 동기화</span>와 월별·카테고리별 지출 통계 시각화 구현</li>
+      </ul>
+    </div>
+
+    </section>
+
+  <section class="sec" style="margin-top:5.5mm;">
+    <div class="sechead"><span class="no">03</span><span class="ti">Background</span><span class="ln"></span></div>
+    <div class="foot">
+      <div class="blk">
+        <h4>Education &amp; Awards</h4>
+        <div class="row"><div class="l">가천대학교 컴퓨터공학과 <small>학사 · GPA 3.84 / 4.5</small></div><div class="r">2020.03 — 2026.02</div></div>
+        <div class="row"><div class="l">학습공동체 우수상 <small>고급웹프로그래밍 · 가천대학교</small></div><div class="r">2023.12</div></div>
+        <div class="row"><div class="l">T.M.I 우수상 <small>가천대 ArTechne센터 · 그룹 가계부 'CashTag' (팀 ECOM)</small></div><div class="r">2024.07</div></div>
+      </div>
+      <div class="blk">
+        <h4>Skills</h4>
+        <div class="sk">
+          <b>Backend</b>Spring Boot · Java · REST API · JWT · MySQL · Redis
+          <b>Infra / DevOps</b>AWS (EC2·ALB·RDS·ElastiCache) · GitHub Actions CI/CD · Blue-Green · Docker
+          <b>Frontend / Mobile</b>Flutter · React · Konva
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
