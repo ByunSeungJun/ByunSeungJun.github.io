@@ -122,8 +122,8 @@
   <h3 style="margin-top:3.6mm;">Key Results</h3>
   <ul class="b">
     <li>MySQL connections <span class="num">150+ → 40–50, stabilized</span> — root-caused a fleet-wide restart-loop outage with structural design</li>
-    <li><span class="num">250 peak concurrent users</span> served without downtime (CAMP-US Cup) — 362 cumulative real users</li>
-    <li>List network requests <span class="num">cut 3N → N+1</span> · shared image cache at ~45 call sites — measurement-driven performance</li>
+    <li>Handled event-driven <span class="num">traffic spikes (250 peak concurrent, CAMP-US Cup)</span> with load balancing and zero-downtime deploys — no outages</li>
+    <li>Cut main-list API calls <span class="num">~66%</span> by consolidating and optimizing data fetching · shared image cache at ~45 call sites</li>
   </ul>
 
   <h2>Experience</h2>
@@ -134,15 +134,15 @@
     </div>
     <div class="jobmeta">
       Sports-tech startup (“Make every match special”) — Fine Play (B2C) · Fine Day (B2C) · CardNews (B2B).<br>
-      362 cumulative real users · 250 peak concurrent · live leagues: SUFA · HYU League · CAMP-US · K3 · WK.
+      Live leagues: SUFA · HYU League · CAMP-US · K3 · WK · 250 peak concurrent.
     </div>
 
     <h3>System Stability · Performance</h3>
     <ul class="b">
       <li><b>Root-cause incident fix</b> — Ended a fleet-wide restart loop from connection-pool exhaustion by deriving “instances × pool cap ≤ DB limit” (4×10=40 / MySQL cap 151), stabilizing connections from 150+ to 40–50.</li>
-      <li><b>Performance</b> — Removed dashboard N+1 (lazy loading), cut list requests 3N→N+1, and rolled out a shared image-cache pipeline at ~45 call sites to reduce request and memory cost.</li>
+      <li><b>Performance</b> — Removed dashboard N+1 (lazy loading), consolidated main-list API calls to cut request volume ~66%, and rolled out a shared image-cache pipeline at ~45 call sites to reduce request and memory cost.</li>
       <li><b>Auth · Redis</b> — Refresh-token rotation (RTR) with reuse detection and bulk revocation, distributed locks, and token blacklisting; concurrent 401 refreshes are serialized through a single client-side queue.</li>
-      <li><b>Security by structure</b> — Isolated external API keys behind a server proxy (path whitelist, Redis TTL cache); after a secret-exposure incident, moved credentials into GitHub Actions Secrets — “structure, not vigilance, prevents it.”</li>
+      <li><b>Security by structure</b> — Isolated external API keys behind a server proxy (path whitelist, Redis TTL cache); moved all credentials into GitHub Actions Secrets — “structure, not vigilance, prevents it.”</li>
     </ul>
 
     <h3>Architecture · Payments</h3>
@@ -214,7 +214,7 @@
     <p class="motto"><b>“Deliberate 50% less, execute 10% more (50210)”</b> — I'd rather build small and learn fast than polish a perfect plan. The less precedent a problem has, the more I set my own hypothesis and bar, then let real users and data set the direction.</p>
     <ul class="b" style="margin-top:1.8mm;">
       <li><b>Test the most uncertain assumption first, in the smallest way</b> — and judge on metrics with visible cause and effect, not vanity numbers. Performance gets cut from real measurements; incidents get driven to their root cause so they can't recur.</li>
-      <li><b>Remove repetition through structure and automation.</b> I run an AI agent (Claude Code) in parallel sessions — build · code review · security audit — with Obsidian as a second brain injecting architecture and decision records as context.</li>
+      <li><b>Remove repetition through structure and automation.</b> I run an AI agent (Claude Code) in parallel sessions — build · code review · security audit — and keep an ADR (architecture decision record) practice so decisions and their context become team assets.</li>
       <li>Tools get delegated, judgment doesn't — only well-defined tasks go to agents; spec definition, output review, and the final call stay with me.</li>
     </ul>
   </div>
