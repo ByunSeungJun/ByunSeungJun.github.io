@@ -10,132 +10,91 @@
 <meta property="og:description" content="Designed and operated the Spring Boot backend and AWS infrastructure, owning B2C·B2B products through to production.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23a8402a'/%3E%3Ctext x='50' y='72' font-size='64' font-family='Arial' font-weight='bold' fill='%23fbfaf6' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b57d0'/%3E%3Ctext x='50' y='72' font-size='64' font-family='Arial' font-weight='bold' fill='%23ffffff' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" as="style" crossorigin
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   /* ════════════════════════════════════════════════════════════
-     Print → PDF :  Ctrl+P · Destination = Save as PDF · Margins = None · Background graphics ON · A4 2 pages
+     v2 EN — developer-resume document style (mirrors KR v2 final)
+     Print → PDF : headless Chrome --print-to-pdf · A4 · 2 pages
      ════════════════════════════════════════════════════════════ */
   @page { size: A4; margin: 0; }
   *{ margin:0; padding:0; box-sizing:border-box; }
 
   :root{
-    --ink:#17130d; --soft:#5f574c; --faint:#8c8478;
-    --line:#e3ddd1; --line2:#cfc7b8; --paper:#fbfaf6; --accent:#a8402a;
+    --ink:#1a1a1a; --soft:#555; --faint:#999;
+    --line:#e5e5e5; --line2:#d4d4d4; --paper:#ffffff; --link:#0b57d0;
   }
 
   html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   body{
     font-family:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-    color:var(--ink); background:#d7d4cd; line-height:1.6;
+    color:var(--ink); background:#dededd; line-height:1.62;
     font-feature-settings:"tnum" 1; -webkit-font-smoothing:antialiased;
-    letter-spacing:-.012em; word-break:keep-all; overflow-wrap:break-word;
+    letter-spacing:-.005em; word-break:normal; overflow-wrap:break-word;
   }
   .sheet{
     width:210mm; height:297mm; margin:0 auto; background:var(--paper);
-    padding:16mm 18mm 14mm; position:relative; overflow:hidden;
-    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    padding:15mm 20mm 14mm; position:relative; overflow:hidden;
   }
   .sheet + .sheet{ break-before:page; page-break-before:always; }
-  @media screen{ body{ padding:20px 0; } .sheet{ box-shadow:0 8px 40px rgba(0,0,0,.22); } .sheet + .sheet{ margin-top:22px; } }
+  @media screen{ body{ padding:20px 0; } .sheet{ box-shadow:0 6px 30px rgba(0,0,0,.16); } .sheet + .sheet{ margin-top:22px; } }
 
-  /* ── language switch (screen only) ── */
+  a{ color:var(--link); text-decoration:none; }
+  b, strong{ font-weight:700; color:var(--ink); }
+
+  h1{ font-size:27px; font-weight:800; letter-spacing:-.02em; }
+  .subtitle{ font-size:13.5px; font-weight:700; color:var(--ink); margin-top:1.6mm; }
+  .contact{ font-size:11px; color:var(--soft); margin-top:2.2mm; }
+  .hr{ height:1px; background:var(--ink); margin:5mm 0 0; }
+
+  h2{ font-size:15px; font-weight:800; letter-spacing:-.01em; margin:5.4mm 0 0;
+      padding:0 0 1.8mm 3mm; border-bottom:1px solid var(--line2); border-left:3.5px solid var(--link); }
+  .sec-body{ margin-top:3.2mm; }
+
+  p.about{ font-size:11.4px; line-height:1.7; color:#333; margin-top:2.6mm; }
+
+  .job{ display:flex; justify-content:space-between; align-items:baseline; margin-top:3mm; }
+  .job .co{ font-size:13.5px; font-weight:800; }
+  .job .co small{ font-weight:600; color:var(--soft); font-size:11px; }
+  .job .dt{ font-size:11px; color:var(--faint); white-space:nowrap; }
+  .jobmeta{ font-size:10.6px; color:var(--soft); line-height:1.58; margin-top:1.2mm; }
+
+  h3{ font-size:11.3px; font-weight:800; color:var(--ink); margin:3.8mm 0 1.6mm; }
+  h3::before{ content:""; display:inline-block; width:7px; height:7px; background:var(--link);
+              margin-right:7px; vertical-align:0; }
+  ul{ list-style:none; }
+  ul.b li{ font-size:10.9px; line-height:1.6; color:#333; padding-left:13px; position:relative; margin-bottom:1.5mm; }
+  ul.b li::before{ content:"•"; position:absolute; left:2px; top:0; color:var(--ink); }
+
+  .prj{ margin-top:3.8mm; }
+  .prj .top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .prj .pn{ font-size:12.5px; font-weight:800; }
+  .prj .pn small{ font-weight:600; color:var(--soft); font-size:10.8px; }
+  .prj .dt{ font-size:10.5px; color:var(--faint); white-space:nowrap; }
+  .prj .stack{ font-size:10.3px; color:var(--soft); margin-top:.8mm; }
+  .prj ul.b{ margin-top:1.3mm; }
+  .prj ul.b li{ margin-bottom:1.1mm; }
+
+  .skill{ font-size:10.9px; line-height:1.75; color:#333; }
+  .skill div{ display:flex; margin-bottom:1mm; }
+  .skill b{ flex:0 0 36mm; font-weight:700; }
+  .skill span{ flex:1; }
+
+  .row{ display:flex; justify-content:space-between; gap:8px; margin-bottom:1.7mm; font-size:11px; }
+  .row .l b{ font-weight:700; }
+  .row .l small{ color:var(--soft); font-weight:400; }
+  .row .r{ color:var(--faint); white-space:nowrap; font-size:10.3px; }
+
+  .num{ color:var(--link); font-weight:700; }
+  .motto{ font-size:11.8px; line-height:1.65; color:#333; margin-top:2.4mm; }
+  .motto b{ font-size:12.2px; }
+  .pagenum{ position:absolute; bottom:7mm; right:20mm; font-size:9px; color:var(--faint); }
   .langswitch{ position:fixed; top:14px; right:14px; z-index:99; font-size:12px; font-weight:700;
     text-decoration:none; color:var(--ink); background:var(--paper); border:1px solid var(--line2);
     border-radius:20px; padding:6px 15px; box-shadow:0 2px 12px rgba(0,0,0,.14); letter-spacing:.04em; }
-  .langswitch:hover{ background:var(--ink); color:var(--paper); }
+  .langswitch:hover{ background:var(--ink); color:#fff; }
   @media print{ .langswitch{ display:none; } }
-
-  .accent{ color:var(--accent); }
-  em{ font-style:normal; color:var(--accent); font-weight:700; }
-
-  /* ── masthead ── */
-  .mast{ display:flex; justify-content:space-between; align-items:flex-end; }
-  .mast .name{ font-size:44px; font-weight:800; letter-spacing:-.01em; line-height:.95; }
-  .mast .name .en{ font-size:15px; font-weight:600; letter-spacing:.01em; color:var(--soft); display:block; margin-top:9px; }
-  .mast .meta{ text-align:right; font-size:11px; line-height:1.95; color:var(--soft); }
-  .mast .meta b{ color:var(--ink); font-weight:600; }
-  .rule{ height:2px; background:var(--ink); margin:6mm 0 0; }
-
-  .lede{ display:flex; gap:9mm; margin-top:7mm; align-items:flex-start; }
-  .lede .role{ flex:0 0 48mm; font-size:13px; font-weight:700; color:var(--accent); line-height:1.6; padding-top:2px; }
-  .lede .copy{ flex:1; font-size:13px; line-height:1.74; color:#3b342a; }
-  .lede .copy b{ font-weight:700; color:var(--ink); }
-
-  /* ── impact metrics ── */
-  .metrics{ display:grid; grid-template-columns:repeat(4,1fr); margin-top:8mm;
-            border-top:1px solid var(--line); border-bottom:1px solid var(--line); break-inside:avoid; }
-  .metrics .m{ padding:4mm 0; text-align:center; border-right:1px solid var(--line); }
-  .metrics .m:last-child{ border-right:0; }
-  .metrics .fig{ font-size:28px; font-weight:800; letter-spacing:-.02em; color:var(--ink); line-height:1; }
-  .metrics .fig .ac{ color:var(--accent); }
-  .metrics .cap{ font-size:11px; color:var(--soft); margin-top:4mm; line-height:1.45; }
-
-  /* ── section header ── */
-  .sec{ margin-top:8mm; }
-  .sechead{ display:flex; align-items:baseline; gap:10px; margin-bottom:5mm; break-after:avoid; }
-  .sechead .no{ font-size:12.5px; font-weight:800; color:var(--accent); letter-spacing:.03em; }
-  .sechead .ti{ font-size:12.5px; font-weight:800; letter-spacing:.24em; text-transform:uppercase; }
-  .sechead .ln{ display:none; }
-
-  /* ── experience ── */
-  .exp{ display:grid; grid-template-columns:48mm 1fr; gap:9mm; }
-  .exp .when{ font-size:11px; color:var(--faint); letter-spacing:.01em; }
-  .exp .org{ font-size:15px; font-weight:800; margin-top:3px; line-height:1.25; }
-  .exp .org .co{ font-size:11.5px; font-weight:600; color:var(--soft); }
-  .exp .pos{ font-size:11.5px; color:var(--accent); font-weight:700; margin-top:4px; line-height:1.4; }
-  .exp .tag{ font-size:10.5px; color:var(--soft); margin-top:4mm; line-height:1.85; }
-  .exp .summary{ font-size:12px; color:#4a4236; line-height:1.66; margin-bottom:3mm; }
-  .ach{ list-style:none; }
-  .ach li{ font-size:11.5px; line-height:1.56; color:#3b342a; padding-left:15px; position:relative; margin-bottom:2.3mm; break-inside:avoid; }
-  .ach li::before{ content:"—"; position:absolute; left:0; top:0; color:var(--accent); font-weight:700; }
-  .ach li b{ font-weight:700; color:var(--ink); }
-  .micro{ font-size:10.5px; color:var(--faint); font-style:italic; margin-top:4mm; padding-left:15px; line-height:1.6; }
-
-  /* ── page 2 running header ── */
-  .runhead{ display:flex; justify-content:space-between; align-items:baseline;
-            border-bottom:1px solid var(--ink); padding-bottom:3mm; }
-  .runhead .l{ font-size:13px; font-weight:800; letter-spacing:-.01em; }
-  .runhead .l span{ font-weight:600; color:var(--soft); font-size:11px; }
-  .runhead .r{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); font-weight:700; }
-
-  /* ── projects ── */
-  .prj{ border-top:1px solid var(--line); padding:2.8mm 0; break-inside:avoid; }
-  .prj:last-of-type{ border-bottom:1px solid var(--line); }
-  .prj .top{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
-  .prj .pn{ font-size:14px; font-weight:800; }
-  .prj .pn .role{ font-weight:600; color:var(--soft); font-size:11.5px; }
-  .prj .pw{ font-size:10.5px; color:var(--faint); white-space:nowrap; }
-  .prj .stack{ font-size:10px; letter-spacing:.03em; color:var(--accent); margin-top:2.6mm; font-weight:600; }
-  .prj .pd{ font-size:11.5px; color:#4a4236; line-height:1.62; margin-top:2.2mm; }
-  .pl{ list-style:none; margin-top:2.6mm; }
-  .pl li{ font-size:11px; line-height:1.6; color:#3b342a; padding-left:14px; position:relative; margin-bottom:1.5mm; }
-  .pl li::before{ content:"·"; position:absolute; left:3px; top:-1px; color:var(--accent); font-weight:800; font-size:14px; }
-  .k{ font-weight:700; color:var(--ink); }
-  /* ── ways of working ── */
-  .values{ margin-top:2.5mm; }
-  .values .vlbl{ font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); font-weight:700; margin-bottom:3mm; }
-  .vgrid{ display:grid; grid-template-columns:1fr 1fr; gap:2.4mm 9mm; }
-  .vitem{ font-size:11px; line-height:1.5; color:#3b342a; }
-  .vitem b{ color:var(--ink); font-weight:700; }
-  .vitem .vp{ color:var(--accent); font-size:9.5px; font-weight:600; }
-  .fifty{ display:flex; align-items:center; gap:5mm; margin:.8mm 0 2.6mm; }
-  .fifty .big{ font-size:30px; font-weight:800; letter-spacing:-.01em; color:var(--accent); line-height:1; }
-  .fifty .desc{ font-size:11px; color:#4a4236; line-height:1.5; }
-  .fifty .desc b{ color:var(--ink); font-weight:700; }
-  .vmore{ font-size:10.5px; color:#4a4236; line-height:1.5; margin-top:2.6mm; padding-top:2.4mm; border-top:1px dotted var(--line2); }
-
-  /* ── education·awards / skills ── */
-  .foot{ display:grid; grid-template-columns:1fr 1fr; gap:11mm; margin-top:3.5mm; break-inside:avoid; }
-  .blk h4{ font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint); font-weight:700; margin-bottom:4.5mm; }
-  .row{ display:flex; justify-content:space-between; gap:8px; margin-bottom:3.8mm; }
-  .row .l{ font-size:12px; font-weight:700; line-height:1.45; }
-  .row .l small{ display:block; font-weight:500; color:var(--soft); font-size:10.5px; margin-top:2px; }
-  .row .r{ font-size:10.5px; color:var(--faint); white-space:nowrap; }
-  .sk{ font-size:11.5px; line-height:1.78; color:#3b342a; }
-  .sk b{ color:var(--accent); font-weight:700; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; display:block; margin-top:3.5mm; }
-  .sk b:first-child{ margin-top:0; }
 </style>
 </head>
 <body>
@@ -145,140 +104,137 @@
 <!-- ════════════════════ PAGE 1 ════════════════════ -->
 <div class="sheet">
 
-  <header class="mast">
-    <div class="ident">
-      <div class="name">Byun Seungjun<span class="en">변승준</span></div>
-    </div>
-    <div class="meta">
-      <div><b>byean0106@naver.com</b></div>
-      <div>github.com/ByunSeungJun</div>
-      <div>fineplay.kr</div>
-    </div>
-  </header>
-  <div class="rule"></div>
+  <h1>Byun Seungjun <span style="font-size:13px;font-weight:600;color:var(--faint);">변승준</span></h1>
+  <div class="subtitle">Backend / Full-Stack Engineer · Co-founder, Fine Ludens</div>
+  <div class="contact">
+    byean0106@naver.com &nbsp;·&nbsp;
+    <a href="https://github.com/ByunSeungJun">github.com/ByunSeungJun</a> &nbsp;·&nbsp; <a href="https://www.fineplay.kr">www.fineplay.kr</a>
+  </div>
+  <div class="hr"></div>
 
-  <div class="lede">
-    <div class="role">Backend / Full-Stack Engineer<br>Co-Founder, Fine Ludens</div>
-    <div class="copy">
-      <b>A 0→1 full-stack engineer who owns B2C·B2B products from build through to production operation.</b>
-      At a small founding team I designed and ran the Spring Boot backend and AWS infrastructure myself —
-      stopping production incidents <em>structurally so they don't recur</em> and cutting performance cost <em>by measuring first</em>.
+  <h2>About Me</h2>
+  <p class="about">
+    A backend engineer who built the match-video analytics service <b>‘Fine Play’ from zero and runs it as a live service on iOS, Android, and the web</b>.
+    In a small founding team I design and operate the servers, payments, and infrastructure serving 250 peak concurrent users.
+    Incidents get fixed at the structural level so they can't recur; performance is cut by measuring first.
+    I look at technology from the user's side first, and build everything that carries analysis results to users — backend, infra, deployment, and payments.
+  </p>
+  <h3 style="margin-top:3.6mm;">Key Results</h3>
+  <ul class="b">
+    <li>MySQL connections <span class="num">150+ → 40–50, stabilized</span> — root-caused a fleet-wide restart-loop outage with structural design</li>
+    <li><span class="num">250 peak concurrent users</span> served without downtime (CAMP-US Cup) — 362 cumulative real users</li>
+    <li>List network requests <span class="num">cut 3N → N+1</span> · shared image cache at ~45 call sites — measurement-driven performance</li>
+  </ul>
+
+  <h2>Experience</h2>
+  <div class="sec-body">
+    <div class="job">
+      <div class="co">Fine Ludens <small>(Fine Ludens Inc.) — Co-founder · Backend / Infrastructure</small></div>
+      <div class="dt">2023.11 — present</div>
     </div>
+    <div class="jobmeta">
+      Sports-tech startup (“Make every match special”) — Fine Play (B2C) · Fine Day (B2C) · CardNews (B2B).<br>
+      362 cumulative real users · 250 peak concurrent · live leagues: SUFA · HYU League · CAMP-US · K3 · WK.
+    </div>
+
+    <h3>System Stability · Performance</h3>
+    <ul class="b">
+      <li><b>Root-cause incident fix</b> — Ended a fleet-wide restart loop from connection-pool exhaustion by deriving “instances × pool cap ≤ DB limit” (4×10=40 / MySQL cap 151), stabilizing connections from 150+ to 40–50.</li>
+      <li><b>Performance</b> — Removed dashboard N+1 (lazy loading), cut list requests 3N→N+1, and rolled out a shared image-cache pipeline at ~45 call sites to reduce request and memory cost.</li>
+      <li><b>Auth · Redis</b> — Refresh-token rotation (RTR) with reuse detection and bulk revocation, distributed locks, and token blacklisting; concurrent 401 refreshes are serialized through a single client-side queue.</li>
+      <li><b>Security by structure</b> — Isolated external API keys behind a server proxy (path whitelist, Redis TTL cache); after a secret-exposure incident, moved credentials into GitHub Actions Secrets — “structure, not vigilance, prevents it.”</li>
+    </ul>
+
+    <h3>Architecture · Payments</h3>
+    <ul class="b">
+      <li><b>Two services, one backend — led the merge</b> — Designed a single Spring Boot backend with unified JWT auth, and led the server merge with two incoming engineers by agreeing on data/transaction boundaries first.</li>
+      <li><b>Toss payment infrastructure (recurring / one-time)</b> — Amounts are server-computed, webhooks are double-verified (signature + PG re-query), and deterministic idempotent order keys block double charging.</li>
+    </ul>
+
+    <h3>Infra · Launch</h3>
+    <ul class="b">
+      <li><b>Deployment pipeline</b> — GitHub Actions CI/CD with Blue-Green zero-downtime deploys on AWS (EC2·ALB·RDS·ElastiCache).</li>
+      <li><b>App launch · content automation</b> — Shipped the Flutter app to the App Store and Google Play (through repeated Apple review), and widened reach with an admin tool that turns data visualizations into card news.</li>
+    </ul>
+
+    <h3>Field · Collaboration</h3>
+    <ul class="b">
+      <li>Co-ran the <b>CAMP-US Cup</b> with the Dongducheon Football Association — same-day incident response on match day. Established PR / commit / issue templates for the team.</li>
+    </ul>
   </div>
 
-  <section class="metrics">
-    <div class="m"><div class="fig">150+<span class="ac">→40</span></div><div class="cap">DB connection-pool<br>stabilized (MySQL limit 151)</div></div>
-    <div class="m"><div class="fig">3N<span class="ac">→N+1</span></div><div class="cap">List N+1<br>network requests cut</div></div>
-    <div class="m"><div class="fig"><span class="ac">2→1</span></div><div class="cap">Two services<br>unified on one backend</div></div>
-    <div class="m"><div class="fig"><span class="ac">362</span></div><div class="cap">Real users acquired<br>CAMP-US Cup live ops</div></div>
-  </section>
-
-  <section class="sec">
-    <div class="sechead"><span class="no">01</span><span class="ti">Experience</span><span class="ln"></span></div>
-    <div class="exp">
-      <div>
-        <div class="when">Nov 2023 — Present</div>
-        <div class="org">Fine Ludens<br><span class="co">Fine Ludens Co., Ltd.</span></div>
-        <div class="pos">Co-Founder (incorporator)<br>Backend · Infrastructure</div>
-        <div class="tag">Sports-tech startup<br><span style="color:var(--accent);font-weight:700;">“Make every game special”</span><br>Fine Play (B2C)·Fine Day (B2C)<br>CardNews (B2B)<br>Incorporated Mar 2026<br><span style="color:var(--soft);">Field-proven — SUFA · HYU League · CAMP-US · K3 · WK</span></div>
-      </div>
-      <div>
-        <div class="summary">
-          Fine Ludens is a sports-tech startup that redesigns grassroots sports into more meaningful experiences with data and Vision AI. Its core service <span class="k">Fine Play</span> turns an uploaded match video into highlight selection, performance analysis, and a report in a single flow.
-          I <span class="k">built this service from the ground up and shipped·operated it across iOS·Android·Web</span>, owning backend, infrastructure, deployment, and payments end to end.
-        </div>
-        <ul class="ach">
-          <li><b>Shared backend architecture.</b> Designed Fine Play and Fine Day on a single Spring Boot app with unified JWT authentication, splitting packages by domain to keep operational complexity low.</li>
-          <li><b>Root-cause incident fix.</b> Resolved an outage where DB connection-pool exhaustion drove every instance into a restart loop — sizing the HikariCP cap by “instances × cap ≤ DB limit” (4×10=40 / 151) to bring it from 150+ down to a stable 40–50.</li>
-          <li><b>Performance optimization.</b> Removed dashboard N+1 (@ManyToOne lazy loading), cut app-list N+1 (3N→N+1), and applied a shared image-cache pipeline in ~45 places, lowering request and memory cost.</li>
-          <li><b>Auth · Redis.</b> Implemented refresh-token rotation (RTR) with bulk invalidation on reuse detection, setIfAbsent distributed locks, an access-token blacklist (TTL = remaining expiry), and graceful degradation on Redis failure.</li>
-          <li><b>Infra · Deploy · Payments.</b> Built GitHub Actions CI/CD and Blue-Green zero-downtime deploys on AWS (EC2·ALB·RDS·ElastiCache), plus Toss billing-key recurring/one-time payments and monthly-subscription infrastructure.</li>
-          <li><b>Launch · Content automation.</b> Shipped the Flutter app to the App Store·Google Play (clearing repeated Apple review), and widened touchpoints with an admin tool that auto-generates card-news from metric visualizations, wired through to the in-app tournament tab.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
+  <div class="pagenum">1 / 2</div>
 </div>
 
 <!-- ════════════════════ PAGE 2 ════════════════════ -->
 <div class="sheet">
 
-  <div class="runhead">
-    <div class="l">Byun Seungjun <span>— Backend / Full-Stack Engineer</span></div>
-    <div class="r">Portfolio 2026 · 2 / 2</div>
+  <h2 style="margin-top:0;">Projects</h2>
+  <div class="sec-body">
+
+    <div class="prj">
+      <div class="top"><div class="pn">FinePlay <small>— football analytics platform · sole full-stack (the product above)</small></div><div class="dt">2023.11 — present</div></div>
+      <div class="stack">Spring Boot · AWS · Redis · MySQL · Flutter · Toss Payments · SSE &nbsp;·&nbsp; <a href="https://www.fineplay.kr">www.fineplay.kr</a></div>
+      <ul class="b">
+        <li>Built and ran <b>backend·infra from zero</b>: video upload → highlights·analytics·report flow, membership payments, real-time notifications</li>
+        <li>Shipped <b>iOS·Android·Web from one Flutter codebase</b> (21+ feature domains); used by live leagues (SUFA, CAMP-US)</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">FinePlay CardNews <small>— B2B match-analysis card-news editor · sole front-end</small></div><div class="dt">2026.04 — present</div></div>
+      <div class="stack">React · Canvas · XLSX · html-to-image · WASM · JSZip</div>
+      <ul class="b">
+        <li>Excel parsing → coordinate normalization → <b>auto-selected per-position stats</b> → Canvas heat/pass-map rendering</li>
+        <li>WASM background removal for player photos; html-to-image + JSZip high-res 3-page PNG batch export</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">iCatch <small>— object-detection home cam · AIoT</small></div><div class="dt">2025.03 — 2025.06</div></div>
+      <div class="stack">YOLOv8 · MediaPipe · Python · React · Spring Boot</div>
+      <ul class="b">
+        <li>Designed the detection → state judgment → alert flow — YOLO + MediaPipe state detection on position/distance/time conditions, <b>optimized for Raspberry Pi</b></li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">StyleRobo <small>— AI personal-color analysis web · team lead</small></div><div class="dt">2024.09 — 2024.12</div></div>
+      <div class="stack">Python · scikit-learn · OpenCV · LLM · React · Spring Boot</div>
+      <ul class="b">
+        <li>OpenCV saturation/brightness features + KNN classification for seasonal color — <b>90%+ accuracy</b> vs plain RGB analysis</li>
+        <li>Tag → <b>LLM copywriting → image generation</b> pipeline; Spring Boot result API and React visualization</li>
+      </ul>
+    </div>
+
   </div>
 
-  <section class="values">
-    <div class="vlbl">Ways of Working</div>
-    <div class="fifty">
-      <div class="big">50210</div>
-      <div class="desc"><b>Think 50% less, execute 10% more.</b> For problems with no precedent, set my own criteria — build small, measure, and learn my way to the answer.</div>
-    </div>
-    <div class="vgrid">
-      <div class="vitem"><b>Make it Measurable</b> — decide by measuring</div>
-      <div class="vitem"><b>Remove Friction</b> — kill repetition with structure &amp; automation</div>
-      <div class="vitem"><b>Own the Decision</b> — never delegate judgment</div>
-      <div class="vitem"><b>Iterate Relentlessly</b> — keep iterating through every block</div>
-    </div>
-    <div class="vmore">I run an AI coding agent (Claude Code) in parallel across separate implement · code-review · security-check sessions, and use <span class="k">Obsidian as a second brain (long-term memory)</span> to inject architecture and decision records as context. <span class="k">I delegate the tooling but keep judgment and verification myself.</span></div>
-  </section>
+  <h2>Ways of Working</h2>
+  <div class="sec-body">
+    <p class="motto"><b>“Deliberate 50% less, execute 10% more (50210)”</b> — for problems without precedent, set your own bar — build small, measure, and learn my way to the answer.</p>
+    <ul class="b" style="margin-top:1.8mm;">
+      <li>Decide by measuring; remove repetition through structure and automation.</li>
+      <li>Run AI agents (Claude Code) in parallel sessions by role — build · code review · security audit — with Obsidian as a second brain injecting architecture and decision records as context.</li>
+      <li>Tools get delegated, judgment doesn't — only well-defined tasks go to agents; spec definition, output review, and the final call stay with me.</li>
+    </ul>
+  </div>
 
-  <section class="sec" style="margin-top:3.5mm;">
-    <div class="sechead"><span class="no">02</span><span class="ti">Selected Projects</span><span class="ln"></span></div>
+  <h2>Skills</h2>
+  <div class="sec-body skill">
+    <div><b>Backend</b><span>Spring Boot · Java · REST API · JWT · MySQL · Redis · SSE · S3</span></div>
+    <div><b>Infra / DevOps</b><span>AWS (EC2·ALB·RDS·ElastiCache) · GitHub Actions CI/CD · Blue-Green · Docker</span></div>
+    <div><b>Frontend / Mobile</b><span>Flutter (Riverpod·go_router) · React · styled-components · Canvas · Recharts</span></div>
+    <div><b>AI / LLM</b><span>Claude Code multi-session workflow · OpenAI GPT (FirstAid) · LLM content pipeline (StyleRobo) · YOLOv8 · MediaPipe · OpenCV</span></div>
+  </div>
 
-    <div class="prj">
-      <div class="top"><div class="pn">StyleRobo <span class="role">— AI Personal-Color Diagnosis Web · Team Lead</span></div><div class="pw">Sep — Dec 2024</div></div>
-      <div class="stack">PYTHON · SCIKIT-LEARN · OPENCV · REACT · SPRING BOOT</div>
-      <div class="pd">An AI web service that analyzes a face image to diagnose four-season personal color. I <span class="k">drove the whole flow</span> from planning to model, frontend, and backend integration.</div>
-      <ul class="pl">
-        <li>Automated extraction·preprocessing of facial saturation·brightness with OpenCV and four-season classification with KNN — <em>90%+ accuracy</em> vs. naive RGB analysis</li>
-        <li>Designed the result-storage API + Spring Boot backend integration, and built the React result visualization</li>
-      </ul>
-    </div>
+  <h2>Education &amp; Awards</h2>
+  <div class="sec-body">
+    <div class="row"><div class="l"><b>Gachon University</b> <small>— B.S. Computer Engineering · GPA 3.84 / 4.5</small></div><div class="r">2020.03 — 2026.02</div></div>
+    <div class="row"><div class="l"><b>T.M.I Excellence Award</b> <small>— Gachon ArTechne Center · group ledger‘CashTag’</small></div><div class="r">2024.07</div></div>
+    <div class="row"><div class="l"><b>Learning Community Award</b> <small>— Advanced Web Programming · Gachon Univ.</small></div><div class="r">2023.12</div></div>
+  </div>
 
-    <div class="prj">
-      <div class="top"><div class="pn">iCatch <span class="role">— Object-Detection Home Cam</span></div><div class="pw">Mar — Jun 2025</div></div>
-      <div class="stack">YOLOV8 · MEDIAPIPE · PYTHON · REACT · SPRING BOOT</div>
-      <div class="pd">An AIoT project where I <span class="k">planned the detect → assess → notify flow and designed the feature structure</span>.</div>
-      <ul class="pl">
-        <li>Built state-decision logic on position·distance·time conditions with YOLO + MediaPipe, <span class="k">optimized for Raspberry Pi</span></li>
-        <li>Designed the React visualization and user-settings interface</li>
-      </ul>
-    </div>
-
-    <div class="prj">
-      <div class="top"><div class="pn">CashTag <span class="role">— Group Budgeting App</span></div><div class="pw">Apr — Jul 2024</div></div>
-      <div class="stack">FLUTTER · FIGMA &nbsp;·&nbsp; <span style="color:var(--soft)">T.M.I Excellence Award (Team ECOM)</span></div>
-      <div class="pd">A shared budgeting app for family, friends, and roommates. I handled <span class="k">frontend development</span>.</div>
-      <ul class="pl">
-        <li>Built key screens — onboarding, login/sign-up, home, group management (Figma → Flutter)</li>
-        <li>Implemented <span class="k">real-time sync</span> and monthly·category spending-stat visualization</li>
-      </ul>
-    </div>
-
-    </section>
-
-  <section class="sec" style="margin-top:3.5mm;">
-    <div class="sechead"><span class="no">03</span><span class="ti">Background</span><span class="ln"></span></div>
-    <div class="foot">
-      <div class="blk">
-        <h4>Education &amp; Awards</h4>
-        <div class="row"><div class="l">Gachon University — Computer Science <small>B.S. · GPA 3.84 / 4.5</small></div><div class="r">Mar 2020 — Feb 2026</div></div>
-        <div class="row"><div class="l">Learning Community Award <small>Advanced Web Programming · Gachon Univ.</small></div><div class="r">Dec 2023</div></div>
-        <div class="row"><div class="l">T.M.I Excellence Award <small>Gachon ArTechne Center · group budgeting app 'CashTag' (Team ECOM)</small></div><div class="r">Jul 2024</div></div>
-      </div>
-      <div class="blk">
-        <h4>Skills</h4>
-        <div class="sk">
-          <b>Backend</b>Spring Boot · Java · REST API · JWT · MySQL · Redis
-          <b>Infra / DevOps</b>AWS (EC2·ALB·RDS·ElastiCache) · GitHub Actions CI/CD · Blue-Green · Docker
-          <b>Frontend / Mobile</b>Flutter · React · Konva
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <div class="pagenum">2 / 2</div>
 </div>
 
 </body>
