@@ -60,13 +60,13 @@
 
   .lede{ display:flex; gap:9mm; margin-top:7mm; align-items:flex-start; }
   .lede .role{ flex:0 0 48mm; font-size:13px; font-weight:700; color:var(--accent); line-height:1.6; padding-top:2px; }
-  .lede .copy{ flex:1; font-size:13.5px; line-height:1.82; color:#3b342a; }
+  .lede .copy{ flex:1; font-size:13px; line-height:1.74; color:#3b342a; }
   .lede .copy b{ font-weight:700; color:var(--ink); }
 
   /* ── impact metrics ── */
   .metrics{ display:grid; grid-template-columns:repeat(4,1fr); margin-top:8mm;
             border-top:1px solid var(--line); border-bottom:1px solid var(--line); break-inside:avoid; }
-  .metrics .m{ padding:5mm 0; text-align:center; border-right:1px solid var(--line); }
+  .metrics .m{ padding:4mm 0; text-align:center; border-right:1px solid var(--line); }
   .metrics .m:last-child{ border-right:0; }
   .metrics .fig{ font-size:28px; font-weight:800; letter-spacing:-.02em; color:var(--ink); line-height:1; }
   .metrics .fig .ac{ color:var(--accent); }
@@ -86,9 +86,9 @@
   .exp .org .co{ font-size:11.5px; font-weight:600; color:var(--soft); }
   .exp .pos{ font-size:11.5px; color:var(--accent); font-weight:700; margin-top:4px; line-height:1.4; }
   .exp .tag{ font-size:10.5px; color:var(--soft); margin-top:4mm; line-height:1.85; }
-  .exp .summary{ font-size:12.5px; color:#4a4236; line-height:1.78; margin-bottom:4.5mm; }
+  .exp .summary{ font-size:12px; color:#4a4236; line-height:1.66; margin-bottom:3mm; }
   .ach{ list-style:none; }
-  .ach li{ font-size:12px; line-height:1.72; color:#3b342a; padding-left:15px; position:relative; margin-bottom:3.4mm; break-inside:avoid; }
+  .ach li{ font-size:11.5px; line-height:1.56; color:#3b342a; padding-left:15px; position:relative; margin-bottom:2.3mm; break-inside:avoid; }
   .ach li::before{ content:"—"; position:absolute; left:0; top:0; color:var(--accent); font-weight:700; }
   .ach li b{ font-weight:700; color:var(--ink); }
   .micro{ font-size:10.5px; color:var(--faint); font-style:italic; margin-top:4mm; padding-left:15px; line-height:1.6; }
@@ -101,7 +101,7 @@
   .runhead .r{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); font-weight:700; }
 
   /* ── projects ── */
-  .prj{ border-top:1px solid var(--line); padding:3.5mm 0; break-inside:avoid; }
+  .prj{ border-top:1px solid var(--line); padding:2.8mm 0; break-inside:avoid; }
   .prj:last-of-type{ border-bottom:1px solid var(--line); }
   .prj .top{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
   .prj .pn{ font-size:14px; font-weight:800; }
@@ -114,20 +114,20 @@
   .pl li::before{ content:"·"; position:absolute; left:3px; top:-1px; color:var(--accent); font-weight:800; font-size:14px; }
   .k{ font-weight:700; color:var(--ink); }
   /* ── ways of working ── */
-  .values{ margin-top:4mm; }
+  .values{ margin-top:2.5mm; }
   .values .vlbl{ font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); font-weight:700; margin-bottom:3mm; }
   .vgrid{ display:grid; grid-template-columns:1fr 1fr; gap:2.4mm 9mm; }
   .vitem{ font-size:11px; line-height:1.5; color:#3b342a; }
   .vitem b{ color:var(--ink); font-weight:700; }
   .vitem .vp{ color:var(--accent); font-size:9.5px; font-weight:600; }
-  .fifty{ display:flex; align-items:center; gap:5mm; margin:1mm 0 4mm; }
+  .fifty{ display:flex; align-items:center; gap:5mm; margin:.8mm 0 2.6mm; }
   .fifty .big{ font-size:30px; font-weight:800; letter-spacing:-.01em; color:var(--accent); line-height:1; }
   .fifty .desc{ font-size:11px; color:#4a4236; line-height:1.5; }
   .fifty .desc b{ color:var(--ink); font-weight:700; }
-  .vmore{ font-size:10.5px; color:#4a4236; line-height:1.55; margin-top:3.5mm; padding-top:3mm; border-top:1px dotted var(--line2); }
+  .vmore{ font-size:10.5px; color:#4a4236; line-height:1.5; margin-top:2.6mm; padding-top:2.4mm; border-top:1px dotted var(--line2); }
 
   /* ── education·awards / skills ── */
-  .foot{ display:grid; grid-template-columns:1fr 1fr; gap:11mm; margin-top:5mm; break-inside:avoid; }
+  .foot{ display:grid; grid-template-columns:1fr 1fr; gap:11mm; margin-top:3.5mm; break-inside:avoid; }
   .blk h4{ font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint); font-weight:700; margin-bottom:4.5mm; }
   .row{ display:flex; justify-content:space-between; gap:8px; margin-bottom:3.8mm; }
   .row .l{ font-size:12px; font-weight:700; line-height:1.45; }
@@ -213,7 +213,7 @@
     <div class="vlbl">Ways of Working</div>
     <div class="fifty">
       <div class="big">50210</div>
-      <div class="desc"><b>Think 50% less, execute 10% more.</b> For problems with no precedent, set your own criteria and move fast.</div>
+      <div class="desc"><b>Think 50% less, execute 10% more.</b> For problems with no precedent, set my own criteria — build small, measure, and learn my way to the answer.</div>
     </div>
     <div class="vgrid">
       <div class="vitem"><b>Make it Measurable</b> — decide by measuring</div>
@@ -224,7 +224,7 @@
     <div class="vmore">I run an AI coding agent (Claude Code) in parallel across separate implement · code-review · security-check sessions, and use <span class="k">Obsidian as a second brain (long-term memory)</span> to inject architecture and decision records as context. <span class="k">I delegate the tooling but keep judgment and verification myself.</span></div>
   </section>
 
-  <section class="sec" style="margin-top:5mm;">
+  <section class="sec" style="margin-top:3.5mm;">
     <div class="sechead"><span class="no">02</span><span class="ti">Selected Projects</span><span class="ln"></span></div>
 
     <div class="prj">
@@ -259,7 +259,7 @@
 
     </section>
 
-  <section class="sec" style="margin-top:5.5mm;">
+  <section class="sec" style="margin-top:3.5mm;">
     <div class="sechead"><span class="no">03</span><span class="ti">Background</span><span class="ln"></span></div>
     <div class="foot">
       <div class="blk">
