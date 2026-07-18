@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>변승준 — Backend / Full-Stack Engineer</title>
+<meta name="description" content="변승준 — Backend / Full-Stack Engineer. Fine Ludens에서 Spring Boot 백엔드·AWS 인프라를 직접 설계·운영하고 B2C·B2B 제품을 실서비스까지 책임진 엔지니어.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="변승준 — Backend / Full-Stack Engineer">
+<meta property="og:description" content="Spring Boot 백엔드·AWS 인프라를 직접 설계·운영하고 B2C·B2B 제품을 실서비스 운영까지 책임진 엔지니어.">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b57d0'/%3E%3Ctext x='50' y='72' font-size='64' font-family='Arial' font-weight='bold' fill='%23ffffff' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ════════════════════════════════════════════════════════════
+     v2 — 개발자 이력서 문서형 (실제 개발자 이력서 관례 기반)
+     레퍼런스: 이동욱(jojoldu.github.io)·Awesome_Resume_Portfolio
+     원칙: 텍스트 중심 · 장식 최소 · 위계=타이포·여백 · 링크 강조 · 수치는 불릿 안에
+     인쇄 → PDF : headless Chrome --print-to-pdf · A4 2페이지
+     ════════════════════════════════════════════════════════════ */
+  @page { size: A4; margin: 0; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  :root{
+    --ink:#1a1a1a; --soft:#555; --faint:#999;
+    --line:#e5e5e5; --line2:#d4d4d4; --paper:#ffffff; --link:#0b57d0;
+  }
+
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    font-family:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink); background:#dededd; line-height:1.65;
+    font-feature-settings:"tnum" 1; -webkit-font-smoothing:antialiased;
+    letter-spacing:-.01em; word-break:keep-all; overflow-wrap:break-word;
+  }
+  .sheet{
+    width:210mm; height:297mm; margin:0 auto; background:var(--paper);
+    padding:15mm 20mm 14mm; position:relative; overflow:hidden;
+  }
+  .sheet + .sheet{ break-before:page; page-break-before:always; }
+  @media screen{ body{ padding:20px 0; } .sheet{ box-shadow:0 6px 30px rgba(0,0,0,.16); } .sheet + .sheet{ margin-top:22px; } }
+
+  a, .lnk{ color:var(--link); text-decoration:none; }
+  b, strong{ font-weight:700; color:var(--ink); }
+
+  /* ── 헤더 ── */
+  h1{ font-size:27px; font-weight:800; letter-spacing:-.02em; }
+  .subtitle{ font-size:13.5px; font-weight:700; color:var(--ink); margin-top:1.6mm; }
+  .contact{ font-size:11px; color:var(--soft); margin-top:2.2mm; }
+  .contact .lnk{ font-weight:600; }
+  .hr{ height:1px; background:var(--ink); margin:5mm 0 0; }
+  .hdr{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+  .hdr-l{ flex:1; min-width:0; }
+  .hdr-photo{ flex:0 0 auto; width:31mm; height:39mm; object-fit:cover; object-position:center top;
+              border-radius:3px; border:1px solid var(--line2); }
+  .pf-cta{ display:inline-block; margin-top:3mm; font-size:11px; font-weight:700; color:var(--link);
+           border:1px solid var(--link); border-radius:16px; padding:1.4mm 3.4mm; text-decoration:none; }
+  .pf-cta:hover{ background:var(--link); color:#fff; }
+
+  /* ── 섹션 ── */
+  h2{ font-size:15px; font-weight:800; letter-spacing:-.01em; margin:5.6mm 0 0;
+      padding:0 0 1.8mm 3mm; border-bottom:1px solid var(--line2); border-left:3.5px solid var(--link); }
+  .sec-body{ margin-top:3.4mm; }
+
+  p.about{ font-size:11.8px; line-height:1.75; color:#333; margin-top:2.6mm; }
+
+  /* ── 경력 ── */
+  .job{ display:flex; justify-content:space-between; align-items:baseline; margin-top:3.2mm; }
+  .job .co{ font-size:13.5px; font-weight:800; }
+  .job .co small{ font-weight:600; color:var(--soft); font-size:11px; }
+  .job .dt{ font-size:11px; color:var(--faint); white-space:nowrap; }
+  .jobmeta{ font-size:11px; color:var(--soft); line-height:1.6; margin-top:1.2mm; }
+
+  h3{ font-size:11.5px; font-weight:800; color:var(--ink); margin:4.2mm 0 1.8mm; }
+  h3::before{ content:""; display:inline-block; width:7px; height:7px; background:var(--link);
+              margin-right:7px; vertical-align:0; }
+  ul{ list-style:none; }
+  ul.b li{ font-size:11.3px; line-height:1.66; color:#333; padding-left:13px; position:relative; margin-bottom:1.6mm; }
+  ul.b li::before{ content:"•"; position:absolute; left:2px; top:0; color:var(--ink); }
+  ul.b li b{ font-weight:700; }
+
+  /* ── 프로젝트 ── */
+  .prj{ margin-top:4.2mm; }
+  .prj .top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .prj .pn{ font-size:12.5px; font-weight:800; }
+  .prj .pn small{ font-weight:600; color:var(--soft); font-size:11px; }
+  .prj .dt{ font-size:10.5px; color:var(--faint); white-space:nowrap; }
+  .prj .stack{ font-size:10.5px; color:var(--soft); margin-top:.8mm; }
+  .prj ul.b{ margin-top:1.4mm; }
+  .prj ul.b li{ margin-bottom:1.2mm; }
+
+  /* ── 스킬 ── */
+  .skill{ font-size:11.3px; line-height:1.8; color:#333; }
+  .skill div{ display:flex; margin-bottom:1mm; }
+  .skill b{ flex:0 0 34mm; font-weight:700; }
+  .skill span{ flex:1; }
+  .lv{ font-size:8.5px; color:#c3c3c3; letter-spacing:.5px; vertical-align:1px; white-space:nowrap; }
+  .skill-legend{ font-size:10px; color:var(--faint); margin-top:2.6mm; }
+  .skill-legend .lv{ color:#9a9a9a; }
+
+  /* ── 학력·수상 ── */
+  .row{ display:flex; justify-content:space-between; gap:8px; margin-bottom:1.8mm; font-size:11.3px; }
+  .row .l b{ font-weight:700; }
+  .row .l small{ color:var(--soft); font-weight:400; }
+  .row .r{ color:var(--faint); white-space:nowrap; font-size:10.5px; }
+
+  .num{ color:var(--link); font-weight:700; }
+  .motto{ font-size:12.3px; line-height:1.7; color:#333; margin-top:2.6mm; }
+  .motto b{ font-size:12.8px; }
+  .ex{ color:var(--soft); font-weight:400; }
+  .pagenum{ position:absolute; bottom:7mm; right:20mm; font-size:9px; color:var(--faint); }
+  .langswitch{ position:fixed; top:14px; right:14px; z-index:99; font-size:12px; font-weight:700;
+    text-decoration:none; color:var(--ink); background:var(--paper); border:1px solid var(--line2);
+    border-radius:20px; padding:6px 15px; box-shadow:0 2px 12px rgba(0,0,0,.14); letter-spacing:.04em; }
+  .langswitch:hover{ background:var(--ink); color:#fff; }
+  @media print{ .langswitch{ display:none; } }
+
+  /* ── 제품 심볼 (절제 사용: FinePlay 제품 헤더에만) ── */
+  .plogo{ height:15px; width:auto; vertical-align:-2px; margin-right:5px; }
+
+  /* ── 반응형 (화면 전용 · A4 인쇄/PDF 레이아웃은 그대로 유지) ── */
+  @media screen and (max-width:820px){
+    body{ padding:0; background:var(--paper); }
+    .sheet{ width:100%; height:auto; min-height:0; padding:26px 18px 30px;
+            box-shadow:none; overflow:visible; }
+    .sheet + .sheet{ margin-top:0; border-top:8px solid #f0f0f0; }
+    .pagenum{ display:none; }
+    .job, .prj .top, .row{ flex-wrap:wrap; }
+    .job .dt, .prj .dt, .row .r{ width:100%; margin-top:1px; }
+    h1{ font-size:23px; }
+    .langswitch{ top:10px; right:10px; }
+  }
+
+  /* ── 웹사이트형 사이드 패널 (넓은 화면 전용 · 인쇄/모바일 숨김) ── */
+  html{ scroll-behavior:smooth; }
+  h2[id]{ scroll-margin-top:20px; }
+  .side{ position:fixed; top:50%; transform:translateY(-50%); width:202px; max-height:calc(100vh - 40px);
+         overflow-y:auto; display:none; z-index:40; }
+  .side-l{ right:calc(50% + 397px + 26px); }
+  .side-r{ left:calc(50% + 397px + 26px); }
+  @media screen and (min-width:1280px){ .side-l, .side-r{ display:block; } }
+  @media print{ .side{ display:none !important; } }
+
+  .side-name{ font-size:17px; font-weight:800; letter-spacing:-.02em; }
+  .side-role{ font-size:10.5px; color:var(--soft); font-weight:600; margin-top:2px; }
+  .side-nav{ list-style:none; margin-top:15px; border-left:2px solid var(--line); }
+  .side-nav a{ display:block; font-size:11.5px; color:var(--soft); font-weight:600;
+               padding:5px 0 5px 12px; margin-left:-2px; border-left:2px solid transparent;
+               transition:color .15s, border-color .15s; }
+  .side-nav a:hover{ color:var(--ink); }
+  .side-nav a.active{ color:var(--link); border-left-color:var(--link); }
+  .linkbar{ position:fixed; bottom:18px; right:18px; z-index:60; display:flex; align-items:center; gap:15px;
+            background:var(--paper); border:1px solid var(--line2); border-radius:22px; padding:8px 17px;
+            box-shadow:0 3px 16px rgba(0,0,0,.13); }
+  .linkbar a{ display:inline-flex; align-items:center; color:var(--soft); transition:color .15s; }
+  .linkbar a:hover{ color:var(--ink); }
+  .linkbar svg{ display:block; }
+  .linkbar .fp img{ display:block; height:14px; }
+  @media print{ .linkbar{ display:none; } }
+  .side-pdf{ display:block; width:100%; margin-top:15px; font-family:inherit; font-weight:700;
+             font-size:11.5px; line-height:1; color:var(--link); background:#fff; border:1px solid var(--line2);
+             border-radius:18px; padding:8px 0; cursor:pointer; text-align:center; }
+  .side-pdf:hover{ background:var(--link); color:#fff; border-color:var(--link); }
+  .side-pf{ display:block; width:100%; margin-top:8px; font-family:inherit; font-weight:700; font-size:11.5px;
+            line-height:1; color:#fff; background:var(--link); border:1px solid var(--link); border-radius:18px;
+            padding:8px 0; text-align:center; text-decoration:none; }
+  .side-pf:hover{ background:#0847a8; }
+
+  .side-h{ font-size:10px; font-weight:800; color:var(--faint); text-transform:uppercase;
+           letter-spacing:.09em; margin-bottom:10px; }
+  .ext-card{ border:1px solid var(--line2); border-radius:9px; padding:10px 12px; margin-bottom:8px;
+             background:#fff; transition:box-shadow .15s; }
+  .ext-card:hover{ box-shadow:0 2px 12px rgba(0,0,0,.07); }
+  .ext-t{ font-size:12px; font-weight:800; }
+  .ext-d{ font-size:10px; color:var(--soft); margin:2px 0 6px; line-height:1.4; }
+  .ext-card a{ font-size:10.5px; color:var(--link); font-weight:600; }
+  .ext-empty{ border-style:dashed; color:var(--faint); text-align:center; font-size:10.5px; padding:15px 12px; line-height:1.5; }
+  .ext-empty small{ font-size:9px; }
+</style>
+</head>
+<body>
+
+<a class="langswitch" href="index.html" style="right:auto;left:14px;">← 홈</a>
+<a class="langswitch" href="en.html" hreflang="en">EN ↗</a>
+
+<!-- 좌측 네비 (넓은 화면 전용) -->
+<nav class="side side-l" aria-label="목차">
+  <div class="side-name">변승준</div>
+  <div class="side-role">Backend / Full-Stack Engineer</div>
+  <ul class="side-nav">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#awards">Education &amp; Awards</a></li>
+  </ul>
+  <button class="side-pdf" onclick="window.print()">이력서 PDF ↓</button>
+  <a class="side-pf" href="backend-portfolio.html">케이스 포트폴리오 ↗</a>
+</nav>
+
+<!-- 우측 하단 링크 바 -->
+<div class="linkbar">
+  <a href="https://github.com/ByunSeungJun" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <a href="mailto:byean0106@naver.com" aria-label="이메일"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg></a>
+  <a href="https://www.fineplay.kr" class="fp" target="_blank" rel="noopener" aria-label="FinePlay"><img src="assets/fineplay-wordmark.svg" alt="FinePlay" height="14"></a>
+</div>
+
+<!-- ════════════════════ PAGE 1 ════════════════════ -->
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="hdr-l">
+      <h1>변승준 <span style="font-size:13px;font-weight:600;color:var(--faint);">Byun Seungjun</span></h1>
+      <div class="subtitle">Backend / Full-Stack Engineer · Fine Ludens 공동창업자</div>
+      <div class="contact">
+        byean0106@naver.com &nbsp;·&nbsp;
+        <a href="https://github.com/ByunSeungJun">github.com/ByunSeungJun</a> &nbsp;·&nbsp; <a href="https://www.fineplay.kr">www.fineplay.kr</a>
+      </div>
+    </div>
+    <img class="hdr-photo" src="assets/profile.jpg" alt="변승준 프로필 사진" onerror="this.style.display='none'">
+  </div>
+  <div class="hr"></div>
+
+  <h2 id="about">About Me</h2>
+  <p class="about">
+    경기 영상 분석 서비스 <b>Fine Play를 0부터 만들어 iOS·Android·Web 실서비스로 운영하는 백엔드 엔지니어</b>입니다.
+    소수 창업팀에서 서버·인프라·결제를 직접 설계·운영하며, <b>장애는 구조로 다시 안 터지게 막고 성능은 측정해서 깎습니다.</b>
+  </p>
+  <h3 style="margin-top:4mm;">대표 성과</h3>
+  <ul class="b">
+    <li>축구 분석 서비스를 직접 만들어 <b>iOS·Android·Web 3개 플랫폼에 출시·운영</b> (실사용자가 쓰는 서비스로 1년 넘게 운영 중)</li>
+    <li>반복되던 서버 다운 장애를 근본 원인까지 추적해 <b>재발 없이 안정화</b> <span class="num">(DB 커넥션 150+ → 40~50)</span></li>
+    <li>대회 <span class="num">순간 최대 250명</span> 동시접속을 <b>무장애로 운영</b> · 화면 조회 비용 대폭 절감 <span class="num">(API 호출 ~66%↓)</span></li>
+  </ul>
+  <h3>일하는 방식</h3>
+  <ul class="b">
+    <li><b>몰입·끈기</b> — 한번 붙든 문제는 끝을 볼 때까지 파고듭니다. 창업 서비스를 1년 넘게 매달려 iOS·Android·Web 실서비스로 출시했습니다.</li>
+    <li><b>본질까지</b> — 눈앞의 증상보다 구조와 원인의 뿌리를 봅니다. 재발은 사람의 주의가 아니라 구조로 막습니다.</li>
+    <li><b>측정으로 판단</b> — 성능은 측정해서 깎고, 장애는 근본 원인까지 추적합니다. 감이 아니라 인과가 보이는 실측으로 결정합니다.</li>
+    <li><b>AI는 도구로</b> — AI 에이전트(Claude Code)를 구현·리뷰·점검으로 나눠 병행하되, 스펙·검증·최종 판단은 직접 합니다.</li>
+  </ul>
+
+  <h2 id="skills">Skills</h2>
+  <div class="skill-legend">숙련도 &nbsp; <span class="lv">●●●</span> 주력 · <span class="lv">●●○</span> 실무 사용 · <span class="lv">●○○</span> 경험</div>
+  <div class="sec-body skill">
+    <div><b>Backend</b><span>Java <span class="lv">●●●</span> · Spring Boot <span class="lv">●●●</span> · REST API <span class="lv">●●●</span> · MySQL <span class="lv">●●●</span> · JWT <span class="lv">●●○</span> · Redis <span class="lv">●●○</span> · SSE <span class="lv">●●○</span> · S3 <span class="lv">●●○</span></span></div>
+    <div><b>Infra / DevOps</b><span>AWS (EC2·ALB·RDS·ElastiCache) <span class="lv">●●○</span> · GitHub Actions CI/CD <span class="lv">●●○</span> · Blue-Green <span class="lv">●●○</span> · Docker <span class="lv">●●○</span></span></div>
+    <div><b>Frontend / Mobile</b><span>Flutter (Riverpod·go_router) <span class="lv">●●●</span> · React <span class="lv">●●○</span> · styled-components <span class="lv">●●○</span> · Canvas <span class="lv">●●○</span> · Recharts <span class="lv">●○○</span></span></div>
+    <div><b>AI / LLM</b><span>Claude Code 멀티세션 워크플로우 <span class="lv">●●○</span> · OpenAI GPT <span class="lv">●●○</span> · LLM 콘텐츠 파이프라인 <span class="lv">●●○</span> · YOLOv8 <span class="lv">●○○</span> · MediaPipe <span class="lv">●○○</span> · OpenCV <span class="lv">●○○</span></span></div>
+  </div>
+
+  <h2 id="experience">Experience</h2>
+  <div class="sec-body">
+    <div class="job">
+      <div class="co">Fine Ludens <small>(주식회사 파인루덴스) — 공동창업자 · 백엔드/인프라</small></div>
+      <div class="dt">2023.11 — 현재</div>
+    </div>
+    <div class="jobmeta">
+      스포츠테크 스타트업 — Fine Play(B2C) · Fine Day(B2C) · CardNews(B2B) · 실증 리그 SUFA · CAMP-US · K3 · WK
+    </div>
+    <ul class="b" style="margin-top:2.8mm;">
+      <li><b>아키텍처</b> — Fine Play·Fine Day를 단일 Spring Boot·통합 JWT로 설계하고 트랜잭션 경계를 합의해 서버 통합 주도</li>
+      <li><b>안정성·성능</b> — DB 커넥션 풀 고갈 장애 근본 해결(150+→40~50), N+1 제거·이미지 캐시 45곳으로 조회 비용 절감</li>
+      <li><b>인증·보안</b> — Redis 기반 RTR·재사용 감지·분산락·블랙리스트, 외부 API 프록시 격리·GitHub Secrets 분리</li>
+      <li><b>결제</b> — 토스 정기/단건 결제(서버 금액 산정·웹훅 이중 검증·멱등키), 트랜잭션 전파 설계로 정합성 확보</li>
+      <li><b>인프라·출시</b> — AWS·GitHub Actions·Blue-Green 무중단 배포, Flutter 앱 3플랫폼 출시(Apple 심사 돌파)</li>
+      <li><b>현장·협업</b> — CAMP-US 컵 현장 운영·당일 장애 대응, PR·커밋·ADR 협업 체계 정립</li>
+    </ul>
+  </div>
+
+  <div class="pagenum">1 / 2</div>
+</div>
+
+<!-- ════════════════════ PAGE 2 ════════════════════ -->
+<div class="sheet">
+
+  <h2 id="projects" style="margin-top:0;">Projects</h2>
+  <div class="sec-body">
+
+    <div class="prj" style="margin-top:0;">
+      <div class="top"><div class="pn"><img class="plogo" src="assets/fp-logo.svg" alt="">FinePlay <small>— 축구 분석 플랫폼 · 풀스택 전담 (위 경력의 핵심 제품)</small></div><div class="dt">2023.11 — 현재</div></div>
+      <div class="stack">Spring Boot · AWS · Redis · MySQL · Flutter · 토스페이먼츠 · SSE &nbsp;·&nbsp; <a href="https://www.fineplay.kr">www.fineplay.kr</a></div>
+      <ul class="b">
+        <li>경기 영상 업로드 → 하이라이트·분석·리포트 플로우, 멤버십 결제·실시간 알림까지 <b>백엔드·인프라 0→1</b> 설계·운영</li>
+        <li>Flutter 단일 코드베이스로 <b>iOS·Android·Web 동시 출시</b>(21+ 기능 도메인), SUFA·CAMP-US 등 실제 리그 운영에 적용</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn"><img class="plogo" src="assets/fp-logo.svg" alt="">FinePlay CardNews <small>— B2B 경기분석 카드뉴스 에디터 · 프런트 전담</small></div><div class="dt">2026.04 — 현재</div></div>
+      <div class="stack">React · Canvas · XLSX · html-to-image · WASM · JSZip</div>
+      <ul class="b">
+        <li>엑셀 분석 파싱 → 좌표 정규화 → <b>포지션별 통계 자동 선별</b> → Canvas 히트맵·패스맵 렌더링, WASM 배경제거·PNG 일괄 export</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">iCatch <small>— 객체인식 기반 홈캠 · AIoT</small></div><div class="dt">2025.03 — 2025.06</div></div>
+      <div class="stack">YOLOv8 · MediaPipe · Python · React · Spring Boot</div>
+      <ul class="b">
+        <li>탐지 → 상태 판단 → 알림 흐름을 설계했습니다. YOLO + MediaPipe로 위치·거리·시간 조건 기반 상태 판별, <b>라즈베리파이 환경 경량화</b>.</li>
+      </ul>
+    </div>
+
+    <div class="prj">
+      <div class="top"><div class="pn">StyleRobo <small>— AI 퍼스널컬러 진단 웹 · 팀장</small></div><div class="dt">2024.09 — 2024.12</div></div>
+      <div class="stack">Python · scikit-learn · OpenCV · LLM · React · Spring Boot</div>
+      <ul class="b">
+        <li>OpenCV 채도·명도 특징 추출 + KNN 분류로 4계절 퍼스널컬러 진단, 단순 RGB 분석 대비 <b>정확도 90% 이상</b>.</li>
+        <li>진단 태그 → <b>LLM 문구 생성 → 이미지 생성</b> 파이프라인 구성, Spring Boot 결과 저장 API·React 시각화</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h2 id="awards">Education &amp; Awards</h2>
+  <div class="sec-body">
+    <div class="row"><div class="l"><b>가천대학교 컴퓨터공학과</b> <small>— 학사 · GPA 3.84 / 4.5</small></div><div class="r">2020.03 — 2026.02</div></div>
+    <div class="row"><div class="l"><b>T.M.I 우수상</b> <small>— 가천대 ArTechne센터 · 그룹 가계부‘CashTag’</small></div><div class="r">2024.07</div></div>
+    <div class="row"><div class="l"><b>학습공동체 우수상</b> <small>— 고급웹프로그래밍 · 가천대학교</small></div><div class="r">2023.12</div></div>
+  </div>
+
+  <div class="pagenum">2 / 2</div>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.side-nav a'));
+  var map = {}, ids = [];
+  links.forEach(function(a){ var id=a.getAttribute('href').slice(1); if(document.getElementById(id)){ map[id]=a; ids.push(id); } });
+  if(!ids.length) return;
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var sy = window.scrollY, vh = window.innerHeight;
+    var docH = document.documentElement.scrollHeight;
+    var tops = [];
+    for(var i=0;i<ids.length;i++){ tops.push(document.getElementById(ids[i]).getBoundingClientRect().top + sy); }
+    var best = ids[0], bestVis = -1;
+    for(var k=0;k<ids.length;k++){                 // 화면에 가장 많이 보이는 섹션을 강조
+      var secTop = tops[k];
+      var secBottom = (k+1 < ids.length) ? tops[k+1] : docH;
+      var vis = Math.min(secBottom, sy + vh) - Math.max(secTop, sy);
+      if(vis > bestVis){ bestVis = vis; best = ids[k]; }
+    }
+    for(var j=0;j<links.length;j++) links[j].classList.remove('active');
+    if(map[best]) map[best].classList.add('active');
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+  update();
+})();
+</script>
+</body>
+</html>
