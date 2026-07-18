@@ -75,11 +75,7 @@
   .cov-role{ font-size:16.5px; font-weight:700; color:var(--ink); margin-top:6.5mm; }
   .cov-tag{ font-size:14.5px; line-height:1.85; color:#333; margin-top:6.5mm; max-width:225mm; }
   .cov-tag b{ color:var(--ink); }
-  .cov-proj{ display:flex; align-items:center; gap:6mm; margin-top:8mm; padding:5mm 7mm;
-             border:1px solid var(--link-tint); background:var(--link-soft); border-radius:11px; max-width:212mm; }
-  .cov-proj img{ height:30px; flex:0 0 auto; }
-  .cov-proj > div{ font-size:13px; line-height:1.55; color:#2c3036; }
-  .cov-proj b{ color:var(--ink); font-weight:700; }
+  .cov-fp{ height:30px; display:block; margin-top:7mm; }
   .cov-foot{ position:absolute; left:24mm; right:24mm; bottom:15mm; display:flex; justify-content:space-between;
              align-items:baseline; border-top:1px solid var(--line); padding-top:3.5mm; font-size:12px; color:var(--soft); }
   .cov-foot a{ font-weight:600; }
@@ -132,11 +128,13 @@
   .chead .cmeta .k{ color:var(--faint); font-weight:700; letter-spacing:.02em; text-transform:uppercase; font-size:9.2px; margin-right:1.4mm; }
   .chead .stackrow{ margin-top:2.4mm; }
 
-  .cbody{ margin-top:6mm; display:grid; grid-template-columns:1fr 1.04fr; gap:11mm; flex:1; align-items:start; align-content:center; }
+  .cbody{ margin-top:6mm; display:grid; grid-template-columns:1fr 1.04fr; grid-template-rows:1fr; gap:11mm; flex:1; align-items:stretch; }
   .cbody.wide-viz{ grid-template-columns:.9fr 1.12fr; }
+  .cbody > div{ display:flex; flex-direction:column; min-height:0; }
+  .cbody > div:last-child{ justify-content:center; }
 
   /* GARL */
-  .garl{ display:flex; flex-direction:column; gap:6.5mm; }
+  .garl{ display:flex; flex-direction:column; gap:6.5mm; flex:1 1 auto; justify-content:space-between; }
   .glabel{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:.08em; color:var(--link);
            background:var(--link-soft); border-radius:4px; padding:.6mm 2.2mm; margin-right:2.4mm; vertical-align:1.5px; }
   .g h5{ font-size:13.8px; font-weight:800; color:var(--ink); line-height:1.4; display:inline; }
@@ -227,13 +225,10 @@
   <div class="cov-kicker">Backend Case Portfolio</div>
   <h1>변승준<span class="en">Byun Seungjun · Backend Engineer</span></h1>
   <div class="cov-role">실서비스를 만들고 운영하며 백엔드 기본기를 다진 엔지니어</div>
-  <div class="cov-proj">
-    <img src="assets/fineplay-wordmark.svg" alt="Fine Play">
-    <div><b>이 포트폴리오의 모든 케이스는 축구 영상 분석 서비스 Fine Play에서 나왔습니다.</b><br>백엔드·인프라부터 직접 만들어 운영하며 마주한 실제 문제들입니다.</div>
-  </div>
+  <img src="assets/fineplay-wordmark.svg" class="cov-fp" alt="Fine Play">
   <p class="cov-tag">
-    실제 트래픽에서 만난 <b>커넥션 풀 고갈, N+1, 트랜잭션 전파, 캐시</b> 문제를 원인부터 파고들어 해결했습니다.
-    각 케이스에 문제 → 원인 분석 → 해결 → 결과를 담았습니다.
+    축구 영상 분석 서비스 <b>Fine Play</b>를 백엔드·인프라부터 직접 만들어 운영하고 있습니다.
+    여기 담은 케이스는 모두 그 과정에서 실제 트래픽으로 마주한 것들입니다. 커넥션 풀 고갈, N+1, 트랜잭션 전파, 캐시를 원인부터 파고들어 해결했고, 각 케이스에 문제 → 원인 → 해결 → 결과를 담았습니다.
   </p>
   <div class="cov-foot">
     <div>byean0106@naver.com &nbsp;·&nbsp; <a class="lnk" href="https://github.com/ByunSeungJun">github.com/ByunSeungJun</a> &nbsp;·&nbsp; <a class="lnk" href="https://byunseungjun.github.io">byunseungjun.github.io</a></div>
@@ -281,8 +276,8 @@
 
             <line x1="106" y1="41" x2="142" y2="63" stroke="#333333" stroke-width="1.3" marker-end="url(#ar)"/>
             <line x1="106" y1="103" x2="142" y2="79" stroke="#333333" stroke-width="1.3" marker-end="url(#ar)"/>
-            <rect x="108" y="64" width="36" height="13.5" rx="3" fill="#eef4fd"/>
-            <text x="126" y="73.6" text-anchor="middle" font-size="8.6" fill="#0b57d0" font-weight="800">REST · SSE</text>
+            <text x="124" y="67" text-anchor="middle" font-size="8" fill="#0b57d0" font-weight="800">REST</text>
+            <text x="124" y="76" text-anchor="middle" font-size="8" fill="#0b57d0" font-weight="800">SSE</text>
 
             <rect x="146" y="40" width="118" height="62" rx="6" fill="#f3f5f7" stroke="#9aa0a6"/>
             <text x="205" y="62" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1a1a1a">공유 Spring Boot</text>
@@ -338,7 +333,7 @@
     <div class="mid">
       <div class="cno"><span class="cn">01</span> Architecture</div>
       <div class="ctitle">단일 Spring Boot 백엔드로 2개 B2C 서비스를 한 팀이 운영</div>
-      <div class="cproj"><span class="pk">Project</span><b>Fine Play · Fine Day</b> — 실서비스로 운영 중인 스포츠 데이터 플랫폼</div>
+      <div class="cproj">두 B2C 서비스를 운영하는 스포츠 데이터 플랫폼</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>백엔드·인프라 설계·구현 &nbsp; <span class="k">기간</span>2024.10~ &nbsp; <span class="k">규모</span>소수 창업팀</div>
@@ -391,7 +386,7 @@
     <div class="mid">
       <div class="cno"><span class="cn">02</span> Reliability <span class="st">★</span> <span class="cpart"><span class="n">1</span>사건과 진단</span></div>
       <div class="ctitle">재시작 악순환에 빠진 프로덕션 장애 — DB 커넥션 풀 고갈</div>
-      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 실서비스 운영 인프라 (대회 트래픽 급증기)</div>
+      <div class="cproj">실서비스 운영 인프라 · 대회 트래픽 급증기</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>진단·설계·조치 &nbsp; <span class="k">시점</span>2026.02 트래픽 급증기</div>
@@ -477,7 +472,7 @@
     <div class="mid">
       <div class="cno"><span class="cn">02</span> Reliability <span class="st">★</span> <span class="cpart"><span class="n">2</span>해결과 결과</span></div>
       <div class="ctitle">같은 장애, 구조로 해결하고 결과로 증명 — HikariCP 전체-합 역산</div>
-      <div class="cproj"><span class="pk">Deep dive</span><b>Fine Play</b> — 앞 장의 커넥션 풀 고갈 사건에서 이어짐</div>
+      <div class="cproj">앞 장의 커넥션 풀 고갈 사건에서 이어짐</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>설계·조치 &nbsp; <span class="k">해결</span>HikariCP 총량 역산</div>
@@ -541,7 +536,7 @@ spring:
     <div class="mid">
       <div class="cno"><span class="cn">03</span> Auth · Cache</div>
       <div class="ctitle">Redis 기반 인증·캐시 설계 — 토큰 회전과 장애 격리</div>
-      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 통합 JWT 인증 시스템</div>
+      <div class="cproj">통합 JWT 인증 시스템</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>인증·캐시 설계·구현</div>
@@ -625,7 +620,7 @@ spring:
     <div class="mid">
       <div class="cno"><span class="cn">04</span> Performance <span class="st">★</span> <span class="cpart"><span class="n">1</span>문제와 측정</span></div>
       <div class="ctitle">리스트가 커질수록 요청이 폭증 — 유저 목록·대시보드의 N+1</div>
-      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 앱 유저 목록 · 어드민 대시보드 조회</div>
+      <div class="cproj">앱 유저 목록 · 어드민 대시보드 조회</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>성능 진단·개선 &nbsp; <span class="k">지표</span>요청/쿼리 수</div>
@@ -686,7 +681,7 @@ spring:
     <div class="mid">
       <div class="cno"><span class="cn">04</span> Performance <span class="st">★</span> <span class="cpart"><span class="n">2</span>해결과 결과</span></div>
       <div class="ctitle">중복 호출 제거 · 지연 로딩 · DTO — 3N을 N+1로</div>
-      <div class="cproj"><span class="pk">Deep dive</span><b>Fine Play</b> — 앞 장에서 측정한 N+1을 구조로 해결</div>
+      <div class="cproj">앞 장에서 측정한 N+1을 구조로 해결</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>설계·개선 &nbsp; <span class="k">지표</span>요청/쿼리 수</div>
@@ -747,7 +742,7 @@ List&lt;UserCardDto&gt; findCards();</pre>
     <div class="mid">
       <div class="cno"><span class="cn">05</span> Transaction</div>
       <div class="ctitle">트랜잭션 전파 설계 — 무엇을 같은 커밋에 둘지</div>
-      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 결제·구독 도메인</div>
+      <div class="cproj">결제·구독 도메인</div>
     </div>
     <div class="cright">
       <div class="cmeta"><span class="k">역할</span>트랜잭션 경계 설계·디버깅</div>
@@ -791,8 +786,8 @@ List&lt;UserCardDto&gt; findCards();</pre>
               <text x="180" y="19.5" text-anchor="middle" font-size="8.6" font-weight="700" fill="#1a1a1a">하나의 트랜잭션 { 결제 · 강등 · 후처리 }</text>
               <text x="52" y="42" font-size="8.2" font-weight="700" fill="#c5221f">후처리 예외 → 전체 롤백 · 강등 유실 / 중복 재청구</text>
 
-              <line x1="167" y1="52" x2="167" y2="62" stroke="#333333" stroke-width="1.2"/>
-              <text x="176" y="59" font-size="7.8" fill="#999">경계 분리</text>
+              <path d="M167,48 L167,61 M162.5,56 L167,61.5 L171.5,56" stroke="#0b57d0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="176" y="59.5" font-size="8.8" fill="#0b57d0" font-weight="700">경계 분리</text>
 
               <!-- after -->
               <text x="6" y="82" font-size="9" font-weight="800" fill="#555">After</text>
@@ -838,7 +833,7 @@ List&lt;UserCardDto&gt; findCards();</pre>
     <div class="mid">
       <div class="cno">Appendix</div>
       <div class="ctitle">엔지니어링 하이라이트 — 백엔드, 그리고 AI 활용</div>
-      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> 백엔드 &nbsp;·&nbsp; <b>AI 활용</b> (에이전트 개발 · 학내·사이드 프로젝트)</div>
+      <div class="cproj">백엔드 엔지니어링 · AI 활용 (에이전트 개발 · 학내·사이드 프로젝트)</div>
     </div>
   </div>
 

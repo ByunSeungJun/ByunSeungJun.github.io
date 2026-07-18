@@ -92,11 +92,14 @@
   .prj ul.b li{ margin-bottom:1.2mm; }
 
   /* ── 스킬 ── */
-  .skill{ font-size:11.3px; line-height:1.8; color:#333; }
-  .skill div{ display:flex; margin-bottom:1mm; }
+  .skill{ font-size:11.3px; color:#333; }
+  .skill div{ display:flex; align-items:flex-start; margin-bottom:1.6mm; }
   .skill b{ flex:0 0 34mm; font-weight:700; }
-  .skill span{ flex:1; }
-  .lv{ font-size:8.5px; color:#c3c3c3; letter-spacing:.5px; vertical-align:1px; white-space:nowrap; }
+  .skill span{ flex:1; line-height:1.95; }
+  .rsk{ display:inline-block; white-space:nowrap; margin:0 15px 0 0; }
+  .lvl{ display:inline-flex; gap:2px; vertical-align:middle; margin-left:4px; }
+  .lvl i{ width:5.5px; height:5.5px; border-radius:50%; background:#d3d7dd; display:inline-block; }
+  .lvl i.on{ background:var(--link); }
   .skill-legend{ font-size:10px; color:var(--faint); margin-top:2.6mm; }
   .skill-legend .lv{ color:#9a9a9a; }
 
@@ -117,7 +120,7 @@
   .langswitch:hover{ background:var(--ink); color:#fff; }
   @media print{ .langswitch{ display:none; } }
 
-  /* ── 제품 심볼 (절제 사용: FinePlay 제품 헤더에만) ── */
+  /* ── 제품 심볼 (절제 사용: Fine Play 제품 헤더에만) ── */
   .plogo{ height:15px; width:auto; vertical-align:-2px; margin-right:5px; }
 
   /* ── 반응형 (화면 전용 · A4 인쇄/PDF 레이아웃은 그대로 유지) ── */
@@ -204,7 +207,7 @@
 <div class="linkbar">
   <a href="https://github.com/ByunSeungJun" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
   <a href="mailto:byean0106@naver.com" aria-label="이메일"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg></a>
-  <a href="https://www.fineplay.kr" class="fp" target="_blank" rel="noopener" aria-label="FinePlay"><img src="assets/fineplay-wordmark.svg" alt="FinePlay" height="14"></a>
+  <a href="https://www.fineplay.kr" class="fp" target="_blank" rel="noopener" aria-label="Fine Play"><img src="assets/fineplay-wordmark.svg" alt="Fine Play" height="14"></a>
 </div>
 
 <!-- ════════════════════ PAGE 1 ════════════════════ -->
@@ -221,9 +224,7 @@
     </div>
     <img class="hdr-photo" src="assets/profile.jpg" alt="변승준 프로필 사진" onerror="this.style.display='none'">
   </div>
-  <div class="hr"></div>
-
-  <h2 id="about">About Me</h2>
+  <h2 id="about" style="margin-top:3mm;">About Me</h2>
   <p class="about">
     경기 영상 분석 서비스 <b>Fine Play를 0부터 만들어 iOS·Android·Web 실서비스로 운영하는 백엔드 엔지니어</b>입니다.
     소수 창업팀에서 서버·인프라·결제를 직접 설계·운영하며, <b>장애는 구조로 다시 안 터지게 막고 성능은 측정해서 깎습니다.</b>
@@ -243,12 +244,12 @@
   </ul>
 
   <h2 id="skills">Skills</h2>
-  <div class="skill-legend">숙련도 &nbsp; <span class="lv">●●●</span> 주력 · <span class="lv">●●○</span> 실무 사용 · <span class="lv">●○○</span> 경험</div>
+  <div class="skill-legend">숙련도 &nbsp; <span class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i></span> 주력 · <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span> 실무 사용 · <span class="lvl"><i class="on"></i><i></i><i></i></span> 경험</div>
   <div class="sec-body skill">
-    <div><b>Backend</b><span>Java <span class="lv">●●●</span> · Spring Boot <span class="lv">●●●</span> · REST API <span class="lv">●●●</span> · MySQL <span class="lv">●●●</span> · JWT <span class="lv">●●○</span> · Redis <span class="lv">●●○</span> · SSE <span class="lv">●●○</span> · S3 <span class="lv">●●○</span></span></div>
-    <div><b>Infra / DevOps</b><span>AWS (EC2·ALB·RDS·ElastiCache) <span class="lv">●●○</span> · GitHub Actions CI/CD <span class="lv">●●○</span> · Blue-Green <span class="lv">●●○</span> · Docker <span class="lv">●●○</span></span></div>
-    <div><b>Frontend / Mobile</b><span>Flutter (Riverpod·go_router) <span class="lv">●●●</span> · React <span class="lv">●●○</span> · styled-components <span class="lv">●●○</span> · Canvas <span class="lv">●●○</span> · Recharts <span class="lv">●○○</span></span></div>
-    <div><b>AI / LLM</b><span>Claude Code 멀티세션 워크플로우 <span class="lv">●●○</span> · OpenAI GPT <span class="lv">●●○</span> · LLM 콘텐츠 파이프라인 <span class="lv">●●○</span> · YOLOv8 <span class="lv">●○○</span> · MediaPipe <span class="lv">●○○</span> · OpenCV <span class="lv">●○○</span></span></div>
+    <div><b>Backend</b><span><span class="rsk">Java <span class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="rsk">Spring Boot <span class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="rsk">REST API <span class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="rsk">MySQL <span class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="rsk">JWT <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">Redis <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">SSE <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">S3 <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span></span></div>
+    <div><b>Infra / DevOps</b><span><span class="rsk">AWS (EC2·ALB·RDS·ElastiCache) <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">GitHub Actions CI/CD <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">Blue-Green <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">Docker <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span></span></div>
+    <div><b>Frontend / Mobile</b><span><span class="rsk">Flutter (Riverpod·go_router) <span class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="rsk">React <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">styled-components <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">Canvas <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">Recharts <span class="lvl"><i class="on"></i><i></i><i></i></span></span></span></div>
+    <div><b>AI / LLM</b><span><span class="rsk">Claude Code 멀티세션 워크플로우 <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">OpenAI GPT <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">LLM 콘텐츠 파이프라인 <span class="lvl"><i class="on"></i><i class="on"></i><i></i></span></span><span class="rsk">YOLOv8 <span class="lvl"><i class="on"></i><i></i><i></i></span></span><span class="rsk">MediaPipe <span class="lvl"><i class="on"></i><i></i><i></i></span></span><span class="rsk">OpenCV <span class="lvl"><i class="on"></i><i></i><i></i></span></span></span></div>
   </div>
 
   <h2 id="experience">Experience</h2>
@@ -280,7 +281,7 @@
   <div class="sec-body">
 
     <div class="prj" style="margin-top:0;">
-      <div class="top"><div class="pn"><img class="plogo" src="assets/fp-logo.svg" alt="">FinePlay <small>— 축구 분석 플랫폼 · 풀스택 전담 (위 경력의 핵심 제품)</small></div><div class="dt">2023.11 — 현재</div></div>
+      <div class="top"><div class="pn"><img class="plogo" src="assets/fp-logo.svg" alt="">Fine Play <small>— 축구 분석 플랫폼 · 풀스택 전담 (위 경력의 핵심 제품)</small></div><div class="dt">2023.11 — 현재</div></div>
       <div class="stack">Spring Boot · AWS · Redis · MySQL · Flutter · 토스페이먼츠 · SSE &nbsp;·&nbsp; <a href="https://www.fineplay.kr">www.fineplay.kr</a></div>
       <ul class="b">
         <li>경기 영상 업로드 → 하이라이트·분석·리포트 플로우, 멤버십 결제·실시간 알림까지 <b>백엔드·인프라 0→1</b> 설계·운영</li>
@@ -289,27 +290,34 @@
     </div>
 
     <div class="prj">
-      <div class="top"><div class="pn"><img class="plogo" src="assets/fp-logo.svg" alt="">FinePlay CardNews <small>— B2B 경기분석 카드뉴스 에디터 · 프런트 전담</small></div><div class="dt">2026.04 — 현재</div></div>
+      <div class="top"><div class="pn"><img class="plogo" src="assets/fp-logo.svg" alt="">Fine Play CardNews <small>— B2B 경기분석 카드뉴스 에디터 · 프런트 전담</small></div><div class="dt">2026.04 — 현재</div></div>
       <div class="stack">React · Canvas · XLSX · html-to-image · WASM · JSZip</div>
       <ul class="b">
-        <li>엑셀 분석 파싱 → 좌표 정규화 → <b>포지션별 통계 자동 선별</b> → Canvas 히트맵·패스맵 렌더링, WASM 배경제거·PNG 일괄 export</li>
+        <li>엑셀 분석 파싱 → 좌표 정규화 → <b>포지션별 통계 자동 선별</b> → Canvas 히트맵·패스맵 렌더링(WASM 배경제거·PNG export). 시각화를 <b>인스타 홍보 콘텐츠로 자동화해 B2B 상품화</b></li>
       </ul>
     </div>
 
     <div class="prj">
       <div class="top"><div class="pn">iCatch <small>— 객체인식 기반 홈캠 · AIoT</small></div><div class="dt">2025.03 — 2025.06</div></div>
-      <div class="stack">YOLOv8 · MediaPipe · Python · React · Spring Boot</div>
+      <div class="stack">YOLOv8 · MediaPipe · Python · React · Spring Boot &nbsp;·&nbsp; <a href="https://github.com/gachon-iCatch">GitHub</a></div>
       <ul class="b">
-        <li>탐지 → 상태 판단 → 알림 흐름을 설계했습니다. YOLO + MediaPipe로 위치·거리·시간 조건 기반 상태 판별, <b>라즈베리파이 환경 경량화</b>.</li>
+        <li>탐지 → 상태 판단 → 알림 흐름 설계, YOLO + MediaPipe로 위치·거리·시간 조건 기반 상태 판별, <b>라즈베리파이 환경 경량화</b></li>
       </ul>
     </div>
 
     <div class="prj">
       <div class="top"><div class="pn">StyleRobo <small>— AI 퍼스널컬러 진단 웹 · 팀장</small></div><div class="dt">2024.09 — 2024.12</div></div>
-      <div class="stack">Python · scikit-learn · OpenCV · LLM · React · Spring Boot</div>
+      <div class="stack">Python · scikit-learn · OpenCV · LLM · React · Spring Boot &nbsp;·&nbsp; <a href="https://github.com/stylerobo-project">GitHub</a></div>
       <ul class="b">
         <li>OpenCV 채도·명도 특징 추출 + KNN 분류로 4계절 퍼스널컬러 진단, 단순 RGB 분석 대비 <b>정확도 90% 이상</b>.</li>
         <li>진단 태그 → <b>LLM 문구 생성 → 이미지 생성</b> 파이프라인 구성, Spring Boot 결과 저장 API·React 시각화</li>
+      </ul>
+    </div>
+
+    <div class="prj" style="margin-top:3.6mm;">
+      <div class="top"><div class="pn">기타 프로젝트 <small>— 해커톤 · 학내</small></div></div>
+      <ul class="b" style="margin-top:1.6mm;">
+        <li><b>FirstAId</b> — GPT 응급처치 가이드(프롬프트 흐름 설계·구조화 출력, Streamlit·GPT) &nbsp;·&nbsp; <b>FPFA</b> — YOLO 동물 충돌예방, Webex 실시간 알림 연동 &nbsp;·&nbsp; <b>CashTag</b> — 그룹 가계부 프런트(Flutter, T.M.I 우수상)</li>
       </ul>
     </div>
 
