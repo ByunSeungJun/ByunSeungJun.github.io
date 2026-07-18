@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>변승준 — 백엔드 포트폴리오</title>
+<meta name="description" content="변승준 백엔드 포트폴리오 — 커넥션 풀 고갈, Redis 인증, N+1 성능, 트랜잭션 전파까지 실서비스에서 원인부터 해결한 케이스.">
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ════════════════════════════════════════════════════════════
+     백엔드 포트폴리오 — PPT형 16:9 와이드 (좌 GARL / 우 시각자료)
+     디자인: 라이브 v2 계승(흰 배경·블루 #0b57d0) · 타입 스케일 통일
+     인쇄→PDF : Ctrl+P · 대상=PDF · 용지 가로(자동) · 여백 없음 · 배경 그래픽 켜기
+     ════════════════════════════════════════════════════════════ */
+  @page { size: 338.67mm 190.5mm; margin: 0; }   /* PowerPoint 16:9 */
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  :root{
+    --ink:#1a1a1a; --soft:#555; --faint:#999;
+    --line:#e5e5e5; --line2:#d4d4d4; --paper:#ffffff; --link:#0b57d0;
+    --link-soft:#eef4fd; --link-tint:#c9ddf6;
+    --ok:#0b8043; --warn:#c5221f; --amber:#b06000; --amberbg:#fdf1e0;
+  }
+
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    font-family:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink); background:#c9c9c8; line-height:1.6;
+    font-feature-settings:"tnum" 1; -webkit-font-smoothing:antialiased;
+    letter-spacing:-.01em; word-break:keep-all; overflow-wrap:break-word;
+  }
+  .slide{
+    width:338.67mm; height:190.5mm; margin:0 auto; background:var(--paper);
+    padding:11mm 15mm 10mm; position:relative; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .slide::before{ content:""; position:absolute; top:0; left:0; right:0; height:5px;
+                  background:linear-gradient(90deg,var(--link) 0%, #3d82e6 70%, var(--link-tint) 100%); }
+  .slide + .slide{ break-before:page; page-break-before:always; }
+  @media screen{ body{ padding:22px 0; } .slide{ box-shadow:0 8px 34px rgba(0,0,0,.20); } .slide + .slide{ margin-top:26px; } }
+
+  a, .lnk{ color:var(--link); text-decoration:none; }
+  b, strong{ font-weight:700; color:var(--ink); }
+  .num{ color:var(--link); font-weight:700; }
+
+  .card{ border:1px solid var(--line); border-radius:9px; background:#fff; padding:3.6mm 4mm; }
+  .card svg{ display:block; width:100%; height:auto; }
+  .chip{ display:inline-block; font-size:9.5px; font-weight:700; color:var(--link);
+         background:var(--link-soft); border-radius:11px; padding:1mm 2.6mm; margin:0 1mm 1mm 0; }
+  .sub-h{ font-size:13px; font-weight:800; letter-spacing:.02em; color:var(--ink); margin-bottom:3mm;
+          padding-bottom:1.8mm; border-bottom:1px solid var(--line2); }
+  .vizcap{ font-size:10.5px; color:var(--soft); line-height:1.56; margin-top:2.6mm; }
+  .vizcap b{ color:var(--ink); font-weight:700; }
+  .safelist{ list-style:none; margin-top:1mm; }
+  .safelist li{ position:relative; padding-left:9mm; margin-bottom:3.4mm; font-size:11.6px; line-height:1.5; color:#333; }
+  .safelist li .sn{ position:absolute; left:0; top:.3mm; width:6.2mm; height:6.2mm; border-radius:50%; color:#fff;
+                    font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .safelist li b{ color:var(--ink); font-weight:700; }
+  .safelist li small{ display:block; color:var(--soft); font-size:10px; margin-top:.6mm; }
+  .cmp{ border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .cmp-row{ display:flex; align-items:center; gap:4mm; padding:3.4mm 4mm; }
+  .cmp-row + .cmp-row{ border-top:1px solid var(--line); }
+  .cmp-lbl{ font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); width:13mm; }
+  .cmp-fig{ font-size:21px; font-weight:800; width:23mm; letter-spacing:-.02em; }
+  .cmp-fig.red{ color:var(--warn); } .cmp-fig.grn{ color:var(--ok); }
+  .cmp-desc{ font-size:10.3px; color:#555; flex:1; line-height:1.42; }
+  .pagenum{ position:absolute; bottom:4.5mm; left:50%; transform:translateX(-50%); font-size:8.6px; color:var(--faint); }
+
+  /* ═══════════ SLIDE 1 · COVER ═══════════ */
+  .cover{ justify-content:center; padding:18mm 24mm; }
+  .cov-kicker{ font-size:64px; font-weight:800; letter-spacing:.02em; text-transform:uppercase; color:var(--link); line-height:.95; }
+  .cover h1{ font-size:50px; font-weight:800; letter-spacing:-.025em; line-height:1; margin-top:7mm; }
+  .cover h1 .en{ display:block; font-size:16px; font-weight:600; color:var(--faint); letter-spacing:.02em; margin-top:5mm; }
+  .cov-role{ font-size:16.5px; font-weight:700; color:var(--ink); margin-top:6.5mm; }
+  .cov-tag{ font-size:14.5px; line-height:1.85; color:#333; margin-top:6.5mm; max-width:225mm; }
+  .cov-tag b{ color:var(--ink); }
+  .cov-foot{ position:absolute; left:24mm; right:24mm; bottom:15mm; display:flex; justify-content:space-between;
+             align-items:baseline; border-top:1px solid var(--line); padding-top:3.5mm; font-size:12px; color:var(--soft); }
+  .cov-foot a{ font-weight:600; }
+
+  /* ═══════════ SLIDE 2 · OVERVIEW ═══════════ */
+  .ovhead{ display:flex; justify-content:space-between; align-items:baseline;
+           padding-bottom:2.2mm; border-bottom:1px solid var(--line2); }
+  .ovhead .l{ font-size:11px; font-weight:800; }
+  .ovhead .r{ font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); font-weight:800; }
+
+  .metrics{ display:grid; grid-template-columns:repeat(4,1fr); margin-top:5mm;
+            border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .metrics .m{ padding:4mm 3mm; text-align:center; border-right:1px solid var(--line); }
+  .metrics .m:last-child{ border-right:0; }
+  .metrics .mtag{ font-size:9px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--link); margin-bottom:2.4mm; }
+  .metrics .fig{ font-size:25px; font-weight:800; letter-spacing:-.02em; color:var(--ink); line-height:1; }
+  .metrics .fig .ac{ color:var(--link); }
+  .metrics .cap{ font-size:10.3px; color:var(--soft); margin-top:2.4mm; line-height:1.42; }
+
+  .ov-cols{ display:grid; grid-template-columns:1.34fr 1fr; gap:12mm; margin-top:6mm; flex:1; align-items:start; }
+  .archcap{ font-size:11.3px; line-height:1.7; color:#333; margin-top:3.5mm; }
+  .toc .row{ display:grid; grid-template-columns:8mm 1fr auto; gap:3mm; align-items:baseline;
+             padding:2.9mm 0; border-bottom:1px solid var(--line); font-size:12px; }
+  .toc .row:last-child{ border-bottom:0; }
+  .toc .no{ font-weight:800; color:var(--link); }
+  .toc .ti{ font-weight:700; color:var(--ink); }
+  .toc .ti small{ display:block; font-weight:500; color:var(--soft); font-size:10.3px; margin-top:.5mm; }
+  .toc .tg{ font-size:9.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--faint); font-weight:700; }
+  .star{ color:var(--link); }
+
+  /* ═══════════ CASE SLIDES ═══════════ */
+  .runhead{ display:flex; justify-content:space-between; align-items:center;
+            padding-bottom:2mm; border-bottom:1px solid var(--line2); }
+  .runhead .l{ font-size:11px; font-weight:800; }
+  .dots{ display:inline-flex; gap:4px; align-items:center; }
+  .dot{ width:5.5px; height:5.5px; border-radius:50%; background:var(--line2); }
+  .dot.on{ background:var(--link); }
+
+  .chead{ margin-top:4.5mm; display:flex; gap:8mm; align-items:flex-start; justify-content:space-between; }
+  .chead .mid{ flex:1; }
+  .chead .cno{ font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); font-weight:800; }
+  .chead .cno .cn{ color:var(--link); margin-right:2.5mm; }
+  .chead .cno .st{ color:var(--link); }
+  .chead .ctitle{ font-size:20px; font-weight:800; letter-spacing:-.02em; line-height:1.26; margin-top:2mm; }
+  .chead .cproj{ font-size:10px; color:var(--soft); margin-top:2.2mm; }
+  .chead .cproj b{ color:var(--ink); font-weight:700; }
+  .chead .cproj .pk{ color:var(--faint); font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:8.4px; margin-right:1.8mm; }
+  .chead .cright{ text-align:right; flex:0 0 auto; padding-top:1mm; max-width:100mm; }
+  .chead .cmeta{ font-size:10.5px; color:var(--soft); line-height:1.7; }
+  .chead .cmeta .k{ color:var(--faint); font-weight:700; letter-spacing:.02em; text-transform:uppercase; font-size:9.2px; margin-right:1.4mm; }
+  .chead .stackrow{ margin-top:2.4mm; }
+
+  .cbody{ margin-top:6mm; display:grid; grid-template-columns:1fr 1.04fr; gap:11mm; flex:1; align-items:start; }
+  .cbody.wide-viz{ grid-template-columns:.9fr 1.12fr; }
+
+  /* GARL */
+  .garl{ display:flex; flex-direction:column; gap:5mm; }
+  .glabel{ display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.1em; color:var(--link);
+           background:var(--link-soft); border-radius:4px; padding:.6mm 2.2mm; margin-right:2.4mm; vertical-align:1.5px; }
+  .g h5{ font-size:13px; font-weight:800; color:var(--ink); line-height:1.4; display:inline; }
+  .g .hwrap{ margin-bottom:2mm; }
+  .g p{ font-size:11.6px; line-height:1.62; color:#333; }
+  .g ul{ list-style:none; margin-top:1.4mm; }
+  .g li{ font-size:11.6px; line-height:1.58; color:#333; padding-left:11px; position:relative; margin-bottom:1.8mm; }
+  .g li::before{ content:"•"; position:absolute; left:1px; top:0; color:var(--link); }
+  .g li b, .g p b{ color:var(--ink); font-weight:700; }
+  code{ font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; font-size:.88em;
+        background:#f1f3f4; color:#0b57d0; padding:.3mm 1.2mm; border-radius:3px; }
+
+  .viz + .viz{ margin-top:4.5mm; }
+  .vt{ font-size:12.5px; letter-spacing:.01em; color:var(--soft); font-weight:800; margin-bottom:2.8mm; }
+
+  /* Appendix cards */
+  .agrid{ margin-top:5mm; display:grid; grid-template-columns:1fr 1fr; gap:6mm 8mm; flex:1; align-content:start; }
+  .acard{ border:1px solid var(--line); border-radius:9px; padding:3.8mm 4.4mm; }
+  .acard .atop{ display:flex; justify-content:space-between; align-items:baseline; }
+  .acard .an{ font-size:13.5px; font-weight:800; }
+  .acard .an small{ font-weight:600; color:var(--soft); font-size:10.3px; }
+  .acard .acat{ font-size:8.8px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+                border:1px solid currentColor; border-radius:10px; padding:.5mm 2.2mm; white-space:nowrap; }
+  .acard .adesc{ font-size:11.4px; line-height:1.6; color:#333; margin-top:2mm; }
+  .acard .adesc b{ color:var(--ink); }
+  .acard .astack{ margin-top:2.6mm; }
+
+  /* ── 웹 배포 크롬 (화면 전용, 인쇄에는 안 나옴) ── */
+  .webbar{ position:fixed; top:0; left:0; right:0; height:46px; z-index:200; display:flex; align-items:center;
+           justify-content:space-between; padding:0 16px; background:rgba(255,255,255,.94);
+           border-bottom:1px solid #e5e5e5; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .wb-back{ font-size:13px; font-weight:700; color:var(--link); text-decoration:none; }
+  .wb-title{ font-size:12.5px; font-weight:700; color:var(--ink); }
+  .wb-pdf{ font-family:inherit; font-size:12px; font-weight:700; color:var(--link); background:#fff;
+           border:1px solid var(--line2); border-radius:16px; padding:6px 13px; cursor:pointer; }
+  .wb-pdf:hover{ background:var(--link); color:#fff; border-color:var(--link); }
+  @media screen{ body{ padding-top:64px; } }
+  @media screen and (max-width:540px){ .wb-title{ display:none; } }
+  @media print{ .webbar{ display:none !important; } .slide{ zoom:1 !important; } }
+</style>
+</head>
+<body>
+
+<div class="webbar">
+  <a class="wb-back" href="index.html">← 이력서</a>
+  <div class="wb-title">백엔드 케이스 포트폴리오 · 변승준</div>
+  <button class="wb-pdf" onclick="window.print()">PDF 저장 ↓</button>
+</div>
+
+<!-- ════════════════════ SLIDE 1 · COVER ════════════════════ -->
+<div class="slide cover">
+  <div class="cov-kicker">Portfolio</div>
+  <h1>변승준<span class="en">Byun Seungjun · Backend Engineer</span></h1>
+  <div class="cov-role">실서비스를 만들고 운영하며 백엔드 기본기를 다진 엔지니어</div>
+  <p class="cov-tag">
+    축구 경기 영상 분석 서비스 <b>Fine Play</b>를 백엔드·인프라부터 만들어 운영합니다.
+    실제 트래픽에서 만난 <b>커넥션 풀 고갈, N+1, 트랜잭션 전파, 캐시</b> 문제를 원인부터 파고들어 해결했습니다.
+    각 케이스에 문제 → 원인 분석 → 해결 → 결과를 담았습니다.
+  </p>
+  <div class="cov-foot">
+    <div>byean0106@naver.com &nbsp;·&nbsp; <a class="lnk" href="https://github.com/ByunSeungJun">github.com/ByunSeungJun</a> &nbsp;·&nbsp; <a class="lnk" href="https://byunseungjun.github.io">byunseungjun.github.io</a></div>
+  </div>
+  <div class="pagenum">1 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 2 · OVERVIEW ════════════════════ -->
+<div class="slide">
+  <div class="ovhead">
+    <div class="l">변승준</div>
+    <div class="r">Overview</div>
+  </div>
+
+  <div class="metrics">
+    <div class="m"><div class="mtag">안정성</div><div class="fig">150+<span class="ac">→40</span></div><div class="cap">커넥션 풀 고갈 장애를 역산 설계로 안정화 (MySQL 한계 151)</div></div>
+    <div class="m"><div class="mtag">성능</div><div class="fig">3N<span class="ac">→N+1</span></div><div class="cap">리스트 조회의 중복 요청 제거</div></div>
+    <div class="m"><div class="mtag">트래픽</div><div class="fig"><span class="ac">250</span>명</div><div class="cap">대회 순간 최대 동시접속을 무장애 운영</div></div>
+    <div class="m"><div class="mtag">아키텍처</div><div class="fig"><span class="ac">2→1</span></div><div class="cap">두 B2C 서비스를 단일 백엔드로 통합</div></div>
+  </div>
+
+  <div class="ov-cols">
+    <div>
+      <div class="sub-h">System at a glance</div>
+      <div class="card">
+        <svg viewBox="0 0 380 156" role="img" aria-label="풀스택 아키텍처">
+          <defs>
+            <marker id="ar" markerWidth="8" markerHeight="8" refX="4.6" refY="4" orient="auto">
+              <path d="M0,0 L6,4 L0,8 Z" fill="#333333"/>
+            </marker>
+          </defs>
+          <g font-family="Pretendard, sans-serif">
+            <text x="10" y="20" font-size="9" fill="#999">사용자 ▸</text>
+            <rect x="10" y="24" width="96" height="34" rx="5" fill="#fff" stroke="#d4d4d4"/>
+            <text x="58" y="41" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">Flutter 앱</text>
+            <text x="58" y="52" text-anchor="middle" font-size="9" fill="#555">iOS·Android·Web</text>
+            <text x="10" y="82" font-size="9" fill="#999">운영자 ▸</text>
+            <rect x="10" y="86" width="96" height="34" rx="5" fill="#fff" stroke="#d4d4d4"/>
+            <text x="58" y="103" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">React 어드민</text>
+            <text x="58" y="114" text-anchor="middle" font-size="9" fill="#555">운영·콘텐츠·결제</text>
+
+            <text x="126" y="20" text-anchor="middle" font-size="9.5" fill="#0b57d0" font-weight="700">REST / SSE</text>
+            <line x1="106" y1="41" x2="142" y2="63" stroke="#333333" stroke-width="1.3" marker-end="url(#ar)"/>
+            <line x1="106" y1="103" x2="142" y2="79" stroke="#333333" stroke-width="1.3" marker-end="url(#ar)"/>
+
+            <rect x="146" y="40" width="118" height="62" rx="6" fill="#f3f5f7" stroke="#9aa0a6"/>
+            <text x="205" y="62" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1a1a1a">공유 Spring Boot</text>
+            <text x="205" y="77" text-anchor="middle" font-size="9" fill="#555">통합 JWT · 도메인 분리</text>
+            <text x="205" y="90" text-anchor="middle" font-size="7.8" fill="#999">admin·fineday·fineplay·global</text>
+
+            <line x1="264" y1="71" x2="300" y2="71" stroke="#333333" stroke-width="1.3" marker-end="url(#ar)"/>
+
+            <rect x="304" y="26" width="66" height="20" rx="4" fill="#fff" stroke="#d4d4d4"/>
+            <text x="337" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1a1a1a">MySQL</text>
+            <rect x="304" y="50" width="66" height="20" rx="4" fill="#fff" stroke="#d4d4d4"/>
+            <text x="337" y="64" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1a1a1a">Redis</text>
+            <rect x="304" y="74" width="66" height="20" rx="4" fill="#fff" stroke="#d4d4d4"/>
+            <text x="337" y="88" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1a1a1a">S3</text>
+            <rect x="304" y="98" width="66" height="20" rx="4" fill="#fff" stroke="#d4d4d4"/>
+            <text x="337" y="112" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1a1a1a">AWS EC2·ALB</text>
+
+            <line x1="146" y1="132" x2="264" y2="132" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="146" y="148" font-size="8.4" fill="#999">외부 Matchday API — 서버 프록시 경유(키 클라 미노출)</text>
+          </g>
+        </svg>
+      </div>
+      <div class="archcap">
+        <b>단일 Spring Boot 백엔드</b> 위에 Flutter 앱과 React 어드민을 올린 풀스택 스포츠 데이터 플랫폼.
+        인증·결제·실시간(SSE)·외부 API 프록시까지 직접 다뤘습니다.
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-h">Contents</div>
+      <div class="toc">
+        <div class="row"><span class="no">01</span><span class="ti">단일 백엔드로 2개 B2C 서비스 운영<small>무엇을 공유하고 무엇을 분리할지</small></span><span class="tg">Architecture</span></div>
+        <div class="row"><span class="no">02</span><span class="ti"><span class="star">★</span> DB 커넥션 풀 고갈 — 재시작 악순환 종결<small>전체 합으로 자원 설계</small></span><span class="tg">Reliability</span></div>
+        <div class="row"><span class="no">03</span><span class="ti">Redis 기반 인증·캐시 설계<small>토큰 회전과 장애 격리</small></span><span class="tg">Auth · Cache</span></div>
+        <div class="row"><span class="no">04</span><span class="ti"><span class="star">★</span> 리스트 조회 성능 최적화<small>3N 요청을 N+1로</small></span><span class="tg">Performance</span></div>
+        <div class="row"><span class="no">05</span><span class="ti">트랜잭션 전파 설계<small>무엇을 같은 커밋에 둘지</small></span><span class="tg">Transaction</span></div>
+        <div class="row"><span class="no">A</span><span class="ti">엔지니어링 하이라이트<small>백엔드 · AI 활용</small></span><span class="tg">Appendix</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagenum">2 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 3 · CASE 01 ════════════════════ -->
+<div class="slide">
+  <div class="runhead">
+    <div class="l">변승준</div>
+    <div class="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+  </div>
+
+  <div class="chead">
+    <div class="mid">
+      <div class="cno"><span class="cn">01</span> Architecture</div>
+      <div class="ctitle">단일 Spring Boot 백엔드로 2개 B2C 서비스를 한 팀이 운영</div>
+      <div class="cproj"><span class="pk">Project</span><b>Fine Play · Fine Day</b> — 실서비스로 운영 중인 스포츠 데이터 플랫폼</div>
+    </div>
+    <div class="cright">
+      <div class="cmeta"><span class="k">역할</span>백엔드·인프라 설계·구현 &nbsp; <span class="k">기간</span>2024.10~ &nbsp; <span class="k">규모</span>소수 창업팀</div>
+      <div class="stackrow"><span class="chip">Spring Boot</span><span class="chip">JWT</span><span class="chip">MySQL</span><span class="chip">Redis</span><span class="chip">AWS</span><span class="chip">Blue-Green</span></div>
+    </div>
+  </div>
+
+  <div class="cbody" style="grid-template-columns:.78fr 1.22fr;">
+    <div class="garl">
+      <div class="g">
+        <div class="hwrap"><span class="glabel">GOAL</span><h5>두 B2C 서비스를 소수 팀이 함께 운영</h5></div>
+        <p>Fine Play(축구 분석)와 Fine Day(선수 매칭)를 운영하는데, 인증과 인프라, 배포를 서비스마다 따로 만들 여력이 없었습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">ACTION</span><h5>백엔드는 공유하고 도메인만 분리</h5></div>
+        <ul>
+          <li>단일 Spring Boot에 통합 JWT를 두고, 코드는 도메인 패키지(admin·fineday·fineplay·global)로 나눴습니다.</li>
+          <li>Fineday 합류로 백엔드 2명이 들어왔을 때, 어떤 데이터를 공유하고 어떤 걸 분리할지부터 정해 트랜잭션 경계를 잡았습니다.</li>
+          <li>AWS 위에 GitHub Actions와 Blue-Green으로 무중단 배포 파이프라인을 붙였습니다.</li>
+        </ul>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">RESULT</span><h5>인증·배포를 하나로 묶어 두 제품 운영</h5></div>
+        <p>중복 인증과 배포를 없애 소수 팀이 두 서비스를 함께 굴릴 수 있게 됐고, iOS·Android·Web으로 출시했습니다(Apple 심사 반복 돌파).</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">LEARNING</span><h5>공유와 분리의 선을 먼저 그은 게 컸다</h5></div>
+        <p>무엇을 합치고 무엇을 나눌지 초기에 정해두니, 이후 기능이 늘어도 운영 복잡도가 크게 오르지 않았습니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="vt">AWS Blue-Green 무중단 배포 구조</div>
+      <div class="shot"><img src="assets/aws_deploy.jpg" alt="AWS Blue-Green 배포 아키텍처" style="width:100%;height:auto;"></div>
+      <div class="vizcap">GitHub Actions → ECR·S3 → CodeDeploy → <b>Blue/Green Auto Scaling(EC2 T3a) 무중단 전환</b> · ALB · RDS(MySQL) · ElastiCache · Route 53 · ACM</div>
+    </div>
+  </div>
+
+  <div class="pagenum">3 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 4 · CASE 02 ════════════════════ -->
+<div class="slide">
+  <div class="runhead">
+    <div class="l">변승준</div>
+    <div class="dots"><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+  </div>
+
+  <div class="chead">
+    <div class="mid">
+      <div class="cno"><span class="cn">02</span> Production Incident <span class="st">★</span></div>
+      <div class="ctitle">재시작 악순환에 빠진 프로덕션 장애를 구조로 종결 — DB 커넥션 풀 고갈</div>
+      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 실서비스 운영 인프라 (대회 트래픽 급증기)</div>
+    </div>
+    <div class="cright">
+      <div class="cmeta"><span class="k">역할</span>진단·설계·조치 &nbsp; <span class="k">시점</span>2026.02 트래픽 급증기</div>
+      <div class="stackrow"><span class="chip">HikariCP</span><span class="chip">MySQL</span><span class="chip">Docker</span><span class="chip">AWS 다인스턴스</span></div>
+    </div>
+  </div>
+
+  <div class="cbody">
+    <div class="garl">
+      <div class="g">
+        <div class="hwrap"><span class="glabel">GOAL</span><h5>재시작 루프로 전 인스턴스가 다운됨</h5></div>
+        <p>운영 중 <code>Too many connections</code>가 나면서 앱이 못 뜨고, Docker가 자동 재시작하며 커넥션이 더 쌓이는 악순환으로 전 인스턴스가 내려갔습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">ACTION</span><h5>풀 상한을 전체 인스턴스 합 기준으로 재설계</h5></div>
+        <ul>
+          <li><code>Threads_connected</code>가 MySQL 한계(151)에 닿았고 재시작마다 계단식으로 늘었습니다. 원인은 HikariCP 풀 상한이 없던 것이었습니다.</li>
+          <li>먼저 전 인스턴스 컨테이너를 강제 종료해 커넥션을 정리하고 재시작 루프를 끊었습니다.</li>
+          <li>풀 상한은 인스턴스 수 × 상한이 DB 한계를 넘지 않게 역산했습니다(4×10=40, 한계 151). idle·max-lifetime도 함께 조정했습니다.</li>
+        </ul>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">RESULT</span><h5>커넥션 <span class="num">150+ → 40~50개</span>로 안정</h5></div>
+        <p>한계 대비 여유를 두고 안정 운영에 들어갔고, 재시작 악순환은 다시 나오지 않았습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">LEARNING</span><h5>자원은 인스턴스 하나가 아니라 전체 합으로</h5></div>
+        <p>오토스케일·재시작 환경에서는 풀 상한을 개별 인스턴스가 아니라 전체 인스턴스 합으로 잡아야 한다는 걸 이 장애로 확인했습니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="viz">
+        <div class="vt">인시던트 흐름</div>
+        <div class="card">
+          <svg viewBox="0 0 340 46" role="img" aria-label="인시던트 타임라인">
+            <defs><marker id="ar3" markerWidth="7" markerHeight="7" refX="4.2" refY="3.5" orient="auto"><path d="M0,0 L5.5,3.5 L0,7 Z" fill="#333333"/></marker></defs>
+            <g font-family="Pretendard, sans-serif" font-size="8.6" font-weight="700">
+              <rect x="6" y="12" width="72" height="22" rx="5" fill="#ffffff" stroke="#dcdcdc"/>
+              <text x="42" y="26.5" text-anchor="middle" fill="#c5221f">① 커넥션 고갈</text>
+              <line x1="78" y1="23" x2="90" y2="23" stroke="#333333" stroke-width="1.2" marker-end="url(#ar3)"/>
+              <rect x="92" y="12" width="80" height="22" rx="5" fill="#ffffff" stroke="#dcdcdc"/>
+              <text x="132" y="26.5" text-anchor="middle" fill="#c5221f">② 재시작 악순환</text>
+              <line x1="172" y1="23" x2="184" y2="23" stroke="#333333" stroke-width="1.2" marker-end="url(#ar3)"/>
+              <rect x="186" y="12" width="74" height="22" rx="5" fill="#fff" stroke="#d4d4d4"/>
+              <text x="223" y="26.5" text-anchor="middle" fill="#1a1a1a">③ 근본원인 진단</text>
+              <line x1="260" y1="23" x2="272" y2="23" stroke="#333333" stroke-width="1.2" marker-end="url(#ar3)"/>
+              <rect x="274" y="12" width="60" height="22" rx="5" fill="#ffffff" stroke="#dcdcdc"/>
+              <text x="304" y="26.5" text-anchor="middle" fill="#0b8043">④ 역산·안정</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="viz">
+        <div class="vt">커넥션 수 — 조치 전후 (정성 도식)</div>
+        <div class="card">
+          <svg viewBox="0 0 340 104" role="img" aria-label="커넥션 조치 전후 정성 도식">
+            <g font-family="Pretendard, sans-serif">
+              <line x1="30" y1="10" x2="30" y2="86" stroke="#d4d4d4"/>
+              <line x1="30" y1="86" x2="332" y2="86" stroke="#d4d4d4"/>
+              <text x="30" y="98" font-size="7.6" fill="#999">시간 →</text>
+              <text x="6" y="16" font-size="7.6" fill="#999">커넥션</text>
+              <line x1="30" y1="20" x2="332" y2="20" stroke="#c5221f" stroke-width="1" stroke-dasharray="4 3"/>
+              <text x="330" y="17" font-size="8.2" fill="#c5221f" text-anchor="end" font-weight="700">MySQL 한계 151</text>
+              <rect x="30" y="64" width="302" height="11" fill="#e7f3ec"/>
+              <text x="330" y="61" font-size="8.2" fill="#0b8043" text-anchor="end" font-weight="700">안정 40~50</text>
+              <path d="M36,80 C74,70 100,46 128,26 C142,16 152,13 165,12" fill="none" stroke="#c5221f" stroke-width="2"/>
+              <circle cx="165" cy="12" r="2.6" fill="#c5221f"/>
+              <text x="38" y="37" font-size="8.2" fill="#c5221f" font-weight="700">재시작마다 급증 ↑</text>
+              <line x1="165" y1="10" x2="165" y2="86" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+              <text x="169" y="100" font-size="7.8" fill="#555">풀 상한 역산 적용</text>
+              <path d="M165,12 C176,38 186,58 200,69 C240,70 290,70 330,70" fill="none" stroke="#0b8043" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="vizcap"><b>역산</b> — 인스턴스 4 × 풀 상한 10 = 40 ≤ MySQL 151. 클러스터 전체 커넥션을 DB 한계 아래로 고정했습니다.</div>
+    </div>
+  </div>
+
+  <div class="pagenum">4 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 5 · CASE 03 · Redis ════════════════════ -->
+<div class="slide">
+  <div class="runhead">
+    <div class="l">변승준</div>
+    <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+  </div>
+
+  <div class="chead">
+    <div class="mid">
+      <div class="cno"><span class="cn">03</span> Auth · Cache</div>
+      <div class="ctitle">Redis 기반 인증·캐시 설계 — 토큰 회전과 장애 격리</div>
+      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 통합 JWT 인증 시스템</div>
+    </div>
+    <div class="cright">
+      <div class="cmeta"><span class="k">역할</span>인증·캐시 설계·구현</div>
+      <div class="stackrow"><span class="chip">Redis</span><span class="chip">JWT</span><span class="chip">RTR</span><span class="chip">분산락</span></div>
+    </div>
+  </div>
+
+  <div class="cbody">
+    <div class="garl">
+      <div class="g">
+        <div class="hwrap"><span class="glabel">GOAL</span><h5>토큰이 탈취돼도, Redis가 죽어도 버티게</h5></div>
+        <p>토큰이 탈취·재사용돼도 피해를 막고 싶었고, 동시에 Redis가 멈춰도 인증과 서비스가 함께 죽지 않게 하고 싶었습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">ACTION</span><h5>상태를 저장하고, 장애를 흡수하도록 설계</h5></div>
+        <ul>
+          <li><b>리프레시 토큰 회전(RTR)</b> — 토큰마다 상태(VALID·USED·REVOKED)를 Redis에 두고, 이미 쓴 토큰이 다시 오면 재사용으로 보고 해당 유저의 토큰을 일괄 무효화했습니다.</li>
+          <li>동시에 들어오는 회전 요청은 <code>setIfAbsent</code> 분산락으로 하나만 통과시켰습니다.</li>
+          <li>로그아웃한 액세스 토큰은 남은 만료시간만큼 TTL을 걸어 블랙리스트에 넣어 자동 소멸시켰습니다.</li>
+          <li>Redis 장애 시 캐시 실패를 흡수해 인증·프록시가 계속 동작하도록(graceful degradation) 했습니다.</li>
+        </ul>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">RESULT</span><h5>토큰 재사용 대응 + 단일 장애점 제거</h5></div>
+        <p>재사용 공격에 대응하는 인증 구조를 갖췄고, Redis가 죽어도 서비스가 멈추지 않게 만들었습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">LEARNING</span><h5>보안은 “장애일 때”까지 설계해야 한다</h5></div>
+        <p>정상 동작만이 아니라, 장애가 났을 때 무엇을 열고 무엇을 닫을지(페일오픈/클로즈)를 함께 정해야 한다는 걸 배웠습니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="viz">
+        <div class="vt">리프레시 토큰 회전 (RTR)</div>
+        <div class="card">
+          <svg viewBox="0 0 340 72" role="img" aria-label="리프레시 토큰 회전">
+            <defs><marker id="ra" markerWidth="8" markerHeight="8" refX="4.6" refY="4" orient="auto"><path d="M0,0 L6,4 L0,8 Z" fill="#333333"/></marker></defs>
+            <g font-family="Pretendard, sans-serif">
+              <text x="45" y="18" text-anchor="middle" font-size="7.6" fill="#999">로그인</text>
+              <rect x="6" y="24" width="78" height="28" rx="5" fill="#fff" stroke="#d4d4d4"/>
+              <text x="45" y="42" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a1a">AT + RT 발급</text>
+              <line x1="84" y1="38" x2="100" y2="38" stroke="#333333" stroke-width="1.2" marker-end="url(#ra)"/>
+              <rect x="102" y="24" width="98" height="28" rx="5" fill="#fff" stroke="#d4d4d4"/>
+              <text x="151" y="37" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a1a">RT 회전</text>
+              <text x="151" y="47" text-anchor="middle" font-size="7.4" fill="#555">old → USED · new → VALID</text>
+              <line x1="200" y1="38" x2="216" y2="38" stroke="#333333" stroke-width="1.2" marker-end="url(#ra)"/>
+              <text x="277" y="18" text-anchor="middle" font-size="7.6" fill="#c5221f">이미 쓴 토큰 재사용 시</text>
+              <rect x="218" y="24" width="116" height="28" rx="5" fill="#fff" stroke="#dcdcdc"/>
+              <text x="276" y="42" text-anchor="middle" font-size="9" font-weight="800" fill="#c5221f">유저 토큰 일괄 무효화</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="viz">
+        <div class="vt">동시성 · 장애 처리</div>
+        <ol class="safelist">
+          <li><span class="sn" style="background:#0b57d0">1</span><b>분산락 (setIfAbsent)</b><small>동시 회전 요청을 하나만 통과시켜 경쟁 상태 차단</small></li>
+          <li><span class="sn" style="background:#b06000">2</span><b>블랙리스트 TTL</b><small>로그아웃 토큰을 잔여 만료시간만큼만 보관해 자동 소멸</small></li>
+          <li><span class="sn" style="background:#0b8043">3</span><b>Graceful degradation</b><small>Redis 장애 시 캐시 실패를 흡수, 인증·프록시는 계속 동작</small></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagenum">5 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 6 · CASE 04 · N+1 ════════════════════ -->
+<div class="slide">
+  <div class="runhead">
+    <div class="l">변승준</div>
+    <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+  </div>
+
+  <div class="chead">
+    <div class="mid">
+      <div class="cno"><span class="cn">04</span> Performance <span class="st">★</span></div>
+      <div class="ctitle">리스트 조회 성능 최적화 — 3N 요청을 N+1로</div>
+      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 앱 유저 목록 · 어드민 대시보드 조회</div>
+    </div>
+    <div class="cright">
+      <div class="cmeta"><span class="k">역할</span>성능 개선</div>
+      <div class="stackrow"><span class="chip">JPA</span><span class="chip">MySQL</span><span class="chip">지연 로딩</span><span class="chip">캐시</span></div>
+    </div>
+  </div>
+
+  <div class="cbody">
+    <div class="garl">
+      <div class="g">
+        <div class="hwrap"><span class="glabel">GOAL</span><h5>리스트가 커질수록 요청이 폭증했다</h5></div>
+        <p>유저 리스트가 길어질수록 화면 하나에 네트워크 요청이 크게 늘었습니다. 동작은 그대로 두고 비용만 줄여야 했습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">ACTION</span><h5>중복 호출 제거 + 지연 로딩 + 공용 캐시</h5></div>
+        <ul>
+          <li>유저 카드마다 프로필 이미지·즐겨찾기를 개별 호출해 최대 3N 요청이 났습니다. 목록 응답에 이미 있는 값을 재사용해 per-user 호출을 없앴습니다(3N→N+1).</li>
+          <li>백엔드 대시보드의 N+1은 <code>@ManyToOne</code>을 즉시 로딩에서 <b>지연 로딩</b>으로 바꿔 제거했습니다.</li>
+          <li>공용 이미지 컴포넌트로 디스크 캐시(1000개·60일)와 표시 크기 디코드 제한을 약 45곳에 일괄 적용했습니다.</li>
+        </ul>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">RESULT</span><h5>리스트 요청 <span class="num">3N → N+1</span> 감축</h5></div>
+        <p>DTO를 보강하면 →1까지 줄일 수 있음을 설계상 확인했고, 정적 분석 0 error를 유지했습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">LEARNING</span><h5>성능은 셀 수 있는 지표부터 줄인다</h5></div>
+        <p>요청 수처럼 명확한 지표로 개선을 먼저 검증하고, 이어서 응답시간을 실측해 체감 성능까지 확인합니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="viz">
+        <div class="vt">리스트 조회 요청 수 — Before / After</div>
+        <div class="cmp">
+          <div class="cmp-row"><span class="cmp-lbl">Before</span><span class="cmp-fig red">3N</span><span class="cmp-desc">카드(=유저)마다 프로필 이미지·즐겨찾기를 개별 호출</span></div>
+          <div class="cmp-row"><span class="cmp-lbl">After</span><span class="cmp-fig grn">N+1</span><span class="cmp-desc">목록 응답에 있는 값 재사용 · DTO 보강 시 →1까지</span></div>
+        </div>
+      </div>
+
+      <div class="viz">
+        <div class="vt">그 밖의 조치</div>
+        <ol class="safelist">
+          <li><span class="sn" style="background:#0b57d0">1</span><b>@ManyToOne 지연 로딩 전환</b><small>대시보드 조회의 N+1 쿼리 제거</small></li>
+          <li><span class="sn" style="background:#0b57d0">2</span><b>공용 이미지 캐시 약 45곳</b><small>디스크 캐시 1000개·60일 + 표시 크기 디코드 제한</small></li>
+          <li><span class="sn" style="background:#0b8043">3</span><b>캐시 누수 차단</b><small>검색·즐겨찾기 provider를 autoDispose로 전환</small></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagenum">6 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 7 · CASE 05 · Transaction ════════════════════ -->
+<div class="slide">
+  <div class="runhead">
+    <div class="l">변승준</div>
+    <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span></div>
+  </div>
+
+  <div class="chead">
+    <div class="mid">
+      <div class="cno"><span class="cn">05</span> Transaction</div>
+      <div class="ctitle">트랜잭션 전파 설계 — 무엇을 같은 커밋에 둘지</div>
+      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> — 결제·구독 도메인</div>
+    </div>
+    <div class="cright">
+      <div class="cmeta"><span class="k">역할</span>트랜잭션 경계 설계·디버깅</div>
+      <div class="stackrow"><span class="chip">Spring Tx</span><span class="chip">JPA</span><span class="chip">MySQL</span></div>
+    </div>
+  </div>
+
+  <div class="cbody">
+    <div class="garl">
+      <div class="g">
+        <div class="hwrap"><span class="glabel">GOAL</span><h5>너무 많이 묶인 트랜잭션이 데이터를 삼켰다</h5></div>
+        <p>하나의 트랜잭션에 일을 너무 많이 묶으면, 뒤에서 난 예외가 앞의 성공까지 되돌립니다. 어긋나면 안 되는 데이터를 지켜야 했습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">ACTION</span><h5>같은 커밋에 둘 것과 분리할 것을 나눔</h5></div>
+        <ul>
+          <li>구독 강등 처리가 상위 트랜잭션 롤백에 휩쓸려 유실되거나 재청구가 중복되던 경로를, 후처리를 <code>REQUIRES_NEW</code>로 분리해 독립 커밋되게 했습니다.</li>
+          <li>“결제는 성공했는데 커밋 후 후처리 예외로 500이 나던” 문제는, 커밋 이후 단계(알림·외부 호출)를 트랜잭션 밖으로 빼 원인을 없앴습니다.</li>
+          <li>무엇을 같은 커밋에 두고 무엇을 분리할지를 기준으로 트랜잭션 경계를 다시 그었습니다.</li>
+        </ul>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">RESULT</span><h5>강등 유실·중복 청구·성공 후 500 제거</h5></div>
+        <p>롤백에 데이터가 휩쓸리는 경로가 사라졌고, 결제 성공 뒤 500이 재발하지 않았습니다.</p>
+      </div>
+      <div class="g">
+        <div class="hwrap"><span class="glabel">LEARNING</span><h5>다 묶는다고 안전한 게 아니다</h5></div>
+        <p>트랜잭션은 크게 묶을수록 안전한 게 아니라, 같은 커밋에 둘 것과 분리할 것을 나누는 설계라는 걸 배웠습니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="viz">
+        <div class="vt">트랜잭션 경계 — 묶기 vs 분리</div>
+        <div class="card">
+          <svg viewBox="0 0 340 108" role="img" aria-label="트랜잭션 전파 전후">
+            <g font-family="Pretendard, sans-serif">
+              <!-- before -->
+              <text x="6" y="14" font-size="9" font-weight="800" fill="#555">Before</text>
+              <rect x="52" y="4" width="256" height="24" rx="5" fill="#fff" stroke="#d4d4d4" stroke-dasharray="4 3"/>
+              <text x="180" y="19.5" text-anchor="middle" font-size="8.6" font-weight="700" fill="#1a1a1a">하나의 트랜잭션 { 결제 · 강등 · 후처리 }</text>
+              <text x="52" y="42" font-size="8.2" font-weight="700" fill="#c5221f">후처리 예외 → 전체 롤백 · 강등 유실 / 중복 재청구</text>
+
+              <line x1="167" y1="52" x2="167" y2="62" stroke="#333333" stroke-width="1.2"/>
+              <text x="176" y="59" font-size="7.8" fill="#999">경계 분리</text>
+
+              <!-- after -->
+              <text x="6" y="82" font-size="9" font-weight="800" fill="#555">After</text>
+              <rect x="52" y="70" width="80" height="24" rx="5" fill="#fff" stroke="#d4d4d4"/>
+              <text x="92" y="85.5" text-anchor="middle" font-size="8.4" font-weight="700" fill="#1a1a1a">결제 · 강등</text>
+              <rect x="140" y="70" width="96" height="24" rx="5" fill="#fff" stroke="#dcdcdc"/>
+              <text x="188" y="82" text-anchor="middle" font-size="8.2" font-weight="700" fill="#1a1a1a">후처리</text>
+              <text x="188" y="91" text-anchor="middle" font-size="7.2" fill="#555">REQUIRES_NEW</text>
+              <rect x="244" y="70" width="90" height="24" rx="5" fill="#fff" stroke="#dcdcdc"/>
+              <text x="289" y="82" text-anchor="middle" font-size="8.2" font-weight="700" fill="#1a1a1a">알림·외부호출</text>
+              <text x="289" y="91" text-anchor="middle" font-size="7.2" fill="#555">AFTER_COMMIT</text>
+              <text x="52" y="106" font-size="8" fill="#0b8043" font-weight="700">독립 커밋 · 롤백에 휩쓸리지 않음</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="vizcap"><b>핵심</b> — 정합성이 필요한 일은 같은 커밋에, 외부 호출·알림은 커밋 밖으로. 트랜잭션 경계를 나누는 게 곧 정합성 설계입니다.</div>
+    </div>
+  </div>
+
+  <div class="pagenum">7 / 8</div>
+</div>
+
+<!-- ════════════════════ SLIDE 8 · APPENDIX ════════════════════ -->
+<div class="slide">
+  <div class="runhead">
+    <div class="l">변승준</div>
+    <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span></div>
+  </div>
+
+  <div class="chead">
+    <div class="mid">
+      <div class="cno">Appendix</div>
+      <div class="ctitle">엔지니어링 하이라이트 — 백엔드, 그리고 AI 활용</div>
+      <div class="cproj"><span class="pk">Project</span><b>Fine Play</b> 백엔드 &nbsp;·&nbsp; <b>AI 활용</b> (에이전트 개발 · 학내·사이드 프로젝트)</div>
+    </div>
+  </div>
+
+  <div class="agrid">
+    <div class="acard">
+      <div class="atop"><div class="an">결제 시스템 <small>— 토스 빌링키 정기·단건</small></div><div class="acat" style="color:#0b57d0">Payments</div></div>
+      <div class="adesc">서버가 금액을 확정해 변조를 막고, <b>웹훅 서명 검증 + PG 재조회</b>로 이행 누락을 이중 방어. 결정적 주문키 <b>멱등성</b>으로 중복 결제를 차단했습니다.</div>
+      <div class="astack"><span class="chip">Toss</span><span class="chip">Webhook</span><span class="chip">멱등성</span></div>
+    </div>
+
+    <div class="acard">
+      <div class="atop"><div class="an">매치데이 프록시 <small>— 외부 API 보안</small></div><div class="acat" style="color:#b06000">Security</div></div>
+      <div class="adesc">외부 API 키를 <b>서버 프록시로 격리</b>해 클라에 노출하지 않고, 경로 화이트리스트로 검증. 업스트림 실패 시 502로 끊고 Redis TTL 캐시로 완화했습니다.</div>
+      <div class="astack"><span class="chip">프록시</span><span class="chip">화이트리스트</span><span class="chip">TTL 캐시</span></div>
+    </div>
+
+    <div class="acard">
+      <div class="atop"><div class="an">SSE 실시간 알림 <small>— 상태 전파</small></div><div class="acat" style="color:#0b8043">Realtime</div></div>
+      <div class="adesc">서버-센트 이벤트(SSE)로 공지·알림 등 <b>상태 변화를 실시간</b>으로 클라이언트에 전파하는 채널을 설계했습니다.</div>
+      <div class="astack"><span class="chip">SSE</span><span class="chip">이벤트</span></div>
+    </div>
+
+    <div class="acard">
+      <div class="atop"><div class="an">협업 · 문서화 <small>— 이어받을 수 있는 코드</small></div><div class="acat" style="color:#555">Process</div></div>
+      <div class="adesc">PR·커밋·이슈 템플릿을 정립하고, <b>약 268개 REST API를 문서화</b>. 아키텍처 결정 기록(ADR)으로 “누구든 이어받을 수 있게” 남겼습니다.</div>
+      <div class="astack"><span class="chip">PR 컨벤션</span><span class="chip">API 문서화</span><span class="chip">ADR</span></div>
+    </div>
+
+    <div class="acard">
+      <div class="atop"><div class="an">AI 활용 개발 <small>— 병행 세션 워크플로우</small></div><div class="acat" style="color:#8a3ffc">AI Workflow</div></div>
+      <div class="adesc"><b>Claude Code 멀티세션</b>을 구현·리뷰·점검으로 나눠 병행하고, <b>Obsidian</b>에 아키텍처·결정 기록을 두어 컨텍스트로 주입. 스펙·검증·판단은 직접 했습니다.</div>
+      <div class="astack"><span class="chip">Claude Code</span><span class="chip">멀티세션</span><span class="chip">Obsidian</span></div>
+    </div>
+
+    <div class="acard">
+      <div class="atop"><div class="an">AI 활용 프로젝트 <small>— FirstAid · StyleRobo · iCatch</small></div><div class="acat" style="color:#0b8043">LLM · CV</div></div>
+      <div class="adesc">GPT로 증상→응급처치 <b>구조화 출력</b>(FirstAid), 태그→<b>LLM 문구·이미지 생성</b>(StyleRobo), <b>YOLO·MediaPipe</b> 홈캠 경량화(iCatch). LLM·생성·CV를 실제 결과물에 활용했습니다.</div>
+      <div class="astack"><span class="chip">OpenAI GPT</span><span class="chip">LLM</span><span class="chip">YOLOv8</span><span class="chip">OpenCV</span></div>
+    </div>
+  </div>
+
+  <div class="pagenum">8 / 8</div>
+</div>
+
+<script>
+(function(){
+  // 화면 폭에 맞춰 16:9 슬라이드(1280px)를 축소해 꽉 맞춤. 인쇄는 CSS가 zoom:1로 되돌림.
+  function fit(){
+    var avail = document.documentElement.clientWidth;
+    var scale = Math.min(1, (avail - 8) / 1280);
+    var s = document.querySelectorAll('.slide');
+    for(var i=0;i<s.length;i++){ s[i].style.zoom = scale; }
+  }
+  window.addEventListener('resize', fit, {passive:true});
+  window.addEventListener('orientationchange', fit);
+  fit();
+})();
+</script>
+</body>
+</html>
